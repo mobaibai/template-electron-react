@@ -10,17 +10,17 @@ const menu: Array<MenuItemConstructorOptions | MenuItem> = [
     submenu: [
       {
         label: '复制',
-        accelerator: 'CmdOrCtrl+C',
+        accelerator: 'Cmd+COrCtrl+C',
         role: 'copy'
       },
       {
         label: '粘贴',
-        accelerator: 'CmdOrCtrl+V',
+        accelerator: 'Cmd+VOrCtrl+V',
         role: 'paste'
       },
       {
         label: '全选',
-        accelerator: 'CmdOrCtrl+A',
+        accelerator: 'Cmd+AOrCtrl+A',
         role: 'selectAll'
       },
       {

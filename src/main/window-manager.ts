@@ -1,5 +1,6 @@
 import { join } from 'path'
-import { BrowserWindow, shell } from 'electron'
+import os from 'os'
+import { BrowserWindow, shell, app } from 'electron'
 import { is } from '@electron-toolkit/utils'
 
 let mainWindow: BrowserWindow
@@ -8,8 +9,14 @@ let loadingWindow: BrowserWindow
 /**
  * @description: 创建主窗口
  */
-export const createMainWindow = () => {
+export const createMainWindow = async () => {
   const devTools = is.dev && process.env['ELECTRON_RENDERER_URL'] ? true : false
+
+  // console.log('系统位数：', os.arch(), '位')
+  // console.log('系统平台：', os.platform())
+  // console.log('处理器：', os.cpus().length, '核')
+  // console.log('安装目录：', app.getPath('exe'))
+  // console.log('使用情况：', app.getAppMetrics())
 
   mainWindow = new BrowserWindow({
     title: 'Main window',
@@ -19,7 +26,6 @@ export const createMainWindow = () => {
     resizable: true,
     show: false,
     transparent: false,
-    autoHideMenuBar: true,
     ...(process.platform === 'linux' ? {} : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
