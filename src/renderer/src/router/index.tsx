@@ -5,7 +5,6 @@ import { RouteItems } from './config'
 import { Loading } from '@renderer/components/Loading'
 import { useIsShowStore } from '@renderer/stores'
 
-// @ts-ignore
 const RouterViews = (routerItems: RouteType[]) => {
   const _location = useLocation()
   const { setIsShow } = useIsShowStore((state) => state)

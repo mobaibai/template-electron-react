@@ -14,7 +14,6 @@ export const Back: React.FC<Props> = ({ className }) => {
         className="icon cursor-pointer hover:c-[var(--theme-primary)] transition-all duration-400"
         onClick={() => window.history.back()}
       >
-        {/* @ts-ignore */}
         <SwapLeftOutlined />
       </div>
     </div>

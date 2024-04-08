@@ -1,7 +1,6 @@
 import type { SWRConfiguration } from 'swr'
 import useSWR from 'swr'
 import { useAjax } from '@renderer/lib/ajax'
-import { useSetRefresh } from '@renderer/stores'
 
 interface Props {
   method: "get" | "post"
@@ -22,16 +21,6 @@ export const useData = ({ method = 'get', path, params = {}, swrConf = {
   revalidateOnFocus: false,
   revalidateOnReconnect: false
 } }: Props) => {
-  const { refresh } = useSetRefresh((state) => state)
-  if(!refresh.refresh) refresh.refresh = 0
-  if(path?.indexOf('_proxy') != -1){
-    if(!params){
-      params = {}
-      params['refresh'] = refresh.refresh
-    }else{
-      params['refresh'] = refresh.refresh
-    }
-  }
   const { get, post } = useAjax({ showLoading: true, handleError: true })
   const { data, mutate, isLoading, isValidating, error } = useSWR<DataType<ResponseDataListType | ItemType>>(
     path,
