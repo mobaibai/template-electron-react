@@ -12,12 +12,6 @@ let loadingWindow: BrowserWindow
 export const createMainWindow = async () => {
   const devTools = is.dev && process.env['ELECTRON_RENDERER_URL'] ? true : false
 
-  // console.log('系统位数：', os.arch(), '位')
-  // console.log('系统平台：', os.platform())
-  // console.log('处理器：', os.cpus().length, '核')
-  // console.log('安装目录：', app.getPath('exe'))
-  // console.log('使用情况：', app.getAppMetrics())
-
   mainWindow = new BrowserWindow({
     title: 'Main window',
     width: 1280,

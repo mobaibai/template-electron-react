@@ -2,6 +2,7 @@ import { join } from 'path'
 import { ipcMain, dialog, BrowserWindow, app } from 'electron'
 import { is } from '@electron-toolkit/utils'
 import getMAC from 'getmac'
+import { arch, cpus, platform, release } from 'os'
 
 /**
  * @description: Ipc 初始化
@@ -14,6 +15,20 @@ export const ipcHandles = () => {
    * @description: 默认Ipc
    */
   const defaultIpc = () => {
+    /* 系统信息 */
+    ipcMain.handle('systemInfo', () => {
+      return {
+        platform: platform(),
+        arch: arch(),
+        cpus: cpus(),
+        appPath: app.getPath('exe'),
+        metrics: app.getAppMetrics(),
+        nodeVersion: process.versions.node,
+        electronVersion: process.versions.electron,
+        chromeVersion: process.versions.chrome
+      }
+    })
+
     /* 关闭程序 */
     ipcMain.handle('app-close', () => {
       app.quit()

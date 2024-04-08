@@ -1,5 +1,5 @@
-import { IpcRendererEvent, contextBridge, ipcRenderer, shell } from 'electron'
-import { platform, release, arch } from 'os'
+import { IpcRendererEvent, contextBridge, ipcRenderer, shell, app } from 'electron'
+import { platform, release, arch, cpus } from 'os'
 
 contextBridge.exposeInMainWorld('ipcRenderer', {
   send: (channel: string, args?: any) => ipcRenderer.send(channel, args),
@@ -10,12 +10,6 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
     ipcRenderer.once(channel, listener),
   invoke: (channel: string, args: any) => ipcRenderer.invoke(channel, args),
   removeAllListeners: (channel: string) => ipcRenderer.removeAllListeners(channel)
-})
-
-contextBridge.exposeInMainWorld('systemInfo', {
-  platform: platform(),
-  release: release(),
-  arch: arch()
 })
 
 contextBridge.exposeInMainWorld('shell', shell)

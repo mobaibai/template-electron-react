@@ -12,13 +12,6 @@ declare global {
       memory: MemoryInfo
     }
     ipcRenderer: typeof ipcRenderer
-    systemInfo: {
-      platform: string
-      release: string
-      arch: string
-      nodeVersion: string
-      electronVersion: string
-    }
     shell: typeof shell
     crash: {
       start: () => void
