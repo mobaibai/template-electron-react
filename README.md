@@ -34,4 +34,4 @@ npm run build:win
 ```
 
 ### 预览
-![预览.gif](https://files.catbox.moe/gvy033.gif)
+![预览.gif](https://files.catbox.moe/12faop.gif)
