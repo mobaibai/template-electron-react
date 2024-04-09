@@ -55,7 +55,7 @@ export const ipcHandles = () => {
     })
 
     /* 打开子窗口 */
-    ipcMain.handle('open-window', async (_, path) => {
+    ipcMain.handle('open-window', async (event, path) => {
       const childWin = new BrowserWindow({
         title: '子窗口',
         width: 900,
@@ -105,7 +105,7 @@ export const ipcHandles = () => {
     }
 
     /* 直接打印 */
-    ipcMain.handle('print', async (_, url) => {
+    ipcMain.handle('print', async (event, url) => {
       const win = new BrowserWindow({ show: false })
 
       win.webContents.on('did-finish-load', () => {
@@ -120,7 +120,7 @@ export const ipcHandles = () => {
     })
 
     /* 预览打印 */
-    ipcMain.handle('print-preview', async (_, url) => {
+    ipcMain.handle('print-preview', async (event, url) => {
       let childWin: any = new BrowserWindow({
         title: '打印预览',
         show: false,

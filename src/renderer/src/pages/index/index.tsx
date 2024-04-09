@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { LegacyRef, useEffect, useRef, useState } from 'react'
 import { nanoid } from 'nanoid'
+import { useReactToPrint } from 'react-to-print'
 import SystemInfoCard from './components/SystemInfoCard'
 
 interface Props {
@@ -8,8 +9,9 @@ interface Props {
 export const Index: React.FC<Props> = (props) => {
   if (props.title) document.title = props.title
 
-  const timer = useRef<any>(null)
+  const timer = useRef<LegacyRef<HTMLDivElement> | any>(null)
   const [systemInfo, setSystemInfo] = useState<SystemInfo[]>([])
+  const tablePrintRef = useRef<LegacyRef<HTMLDivElement> | any>()
 
   useEffect(() => {
     systemInfoHandler()
@@ -32,18 +34,48 @@ export const Index: React.FC<Props> = (props) => {
     window.ipcRenderer.invoke('systemInfo').then((res) => {
       if (res) {
         setSystemInfo([
-          { key: 'arch', name: '芯片架构', value: res.arch },
-          { key: 'platform', name: '系统平台', value: res.platform },
-          { key: 'cpus', name: '处理器', value: res.cpus.length + '核' },
+          { key: 'arch', name: '芯片', value: res.arch },
+          { key: 'platform', name: '平台', value: res.platform },
+          { key: 'cpu', name: '处理器', value: res.cpus.length + '核' },
           { key: 'metrics', name: '使用率', value: res.metrics }
         ])
       }
     })
   }
 
+  /**
+   * @description: 打印预览
+   * @param {type} target
+   * @return {type}
+   */
+  const printPdfPreview = function (target) {
+    return new Promise(() => {
+      console.log('forwarding print preview request...')
+
+      const data = target.contentWindow.document.documentElement.outerHTML
+      const blob = new Blob([data], { type: 'text/html;charset=utf-8' })
+      const url = URL.createObjectURL(blob)
+      console.log('url', url)
+
+      window.ipcRenderer.invoke('print-preview', url)
+    })
+  }
+
+  /**
+   * @description: 打印
+   * @return {type}
+   */
+  const pdfPreviewHandler = useReactToPrint({
+    content: () => tablePrintRef.current,
+    documentTitle: '组件打印',
+    print: printPdfPreview
+  })
+
   return (
-    <div className="index-container px-10 py-30 relative bg-#222533 h-full">
-      <div className="absolute w-25% h-25% rounded-50% top-40% left-30% transform-translate--50% filter-blur-10rem dark:rainbow-bgc" />
+    <div
+      className="index-container px-10 py-30 flex flex-col justify-between h-full"
+      ref={tablePrintRef}
+    >
       <div className="system-info-items flex items-center space-x-10">
         {systemInfo.length &&
           systemInfo.map((item: any) => (
@@ -62,9 +94,9 @@ export const Index: React.FC<Props> = (props) => {
                             {item.value &&
                               item.value.length &&
                               item.value.map((item2) => (
-                                <div
-                                  key={nanoid()}
-                                >{`${item2.type}：${item2.cpu.percentCPUUsage.toFixed(2)}%`}</div>
+                                <div key={nanoid()}>
+                                  {`${item2.type}：${item2.cpu.percentCPUUsage.toFixed(2)}%`}
+                                </div>
                               ))}
                           </div>
                         )}
@@ -75,6 +107,13 @@ export const Index: React.FC<Props> = (props) => {
               </SystemInfoCard>
             </div>
           ))}
+      </div>
+
+      <div className="print flex justify-end">
+        <i
+          className="icon rainbow-text hover:cursor-pointer i-fluent-emoji-high-contrast:printer text-6"
+          onClick={pdfPreviewHandler}
+        />
       </div>
     </div>
   )

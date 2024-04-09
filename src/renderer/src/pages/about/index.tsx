@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid'
 import { useEffect, useState } from 'react'
 
 interface Props {
@@ -6,21 +7,34 @@ interface Props {
 export const About: React.FC<Props> = (props) => {
   if (props.title) document.title = props.title
 
-  const [versionInfo, setVersionInfo] = useState({})
+  const [versionInfo, setVersionInfo] = useState<{ name: string; value: string }[]>([])
 
   useEffect(() => {
     window.ipcRenderer.invoke('versionInfo').then((res) => {
-      if(res){
-        setVersionInfo(res)
+      if (res) {
+        setVersionInfo([
+          { name: 'Node版本', value: res.nodeVersion },
+          { name: 'Electron版本', value: res.electronVersion },
+          { name: 'Chrome版本', value: res.chromeVersion },
+          { name: '模板版本', value: res.appVersion }
+        ])
       }
-      console.log('Node版本：', res.nodeVersion)
-      console.log('Electron版本：', res.electronVersion)
-      console.log('Chrome版本：', res.chromeVersion)
-      console.log('模板版本：', res.appVersion)
     })
   }, [])
 
-  return <div className="about-container h-full bg-#222533">About</div>
+  return (
+    <div className="about-container h-full flex-col center">
+      <div className="versions space-y-10">
+        {versionInfo.length &&
+          versionInfo.map((item) => (
+            <div className="version" key={nanoid()}>
+              <span className="text-gray-600 text-4">{item.name}：</span>
+              <span className="rainbow-text font-bold text-4">{item.value}</span>
+            </div>
+          ))}
+      </div>
+    </div>
+  )
 }
 
 export default About
