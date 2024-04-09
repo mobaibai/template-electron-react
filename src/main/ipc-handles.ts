@@ -18,14 +18,20 @@ export const ipcHandles = () => {
     /* 系统信息 */
     ipcMain.handle('systemInfo', () => {
       return {
-        platform: platform(),
         arch: arch(),
+        platform: platform(),
         cpus: cpus(),
-        appPath: app.getPath('exe'),
-        metrics: app.getAppMetrics(),
+        metrics: app.getAppMetrics()
+      }
+    })
+
+    /* 版本信息 */
+    ipcMain.handle('versionInfo', () => {
+      return {
         nodeVersion: process.versions.node,
         electronVersion: process.versions.electron,
-        chromeVersion: process.versions.chrome
+        chromeVersion: process.versions.chrome,
+        appVersion: app.getVersion()
       }
     })
 

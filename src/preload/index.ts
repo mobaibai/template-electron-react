@@ -11,11 +11,3 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
   invoke: (channel: string, args: any) => ipcRenderer.invoke(channel, args),
   removeAllListeners: (channel: string) => ipcRenderer.removeAllListeners(channel)
 })
-
-contextBridge.exposeInMainWorld('shell', shell)
-
-contextBridge.exposeInMainWorld('crash', {
-  start: () => {
-    process.crash()
-  }
-})

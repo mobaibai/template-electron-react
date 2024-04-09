@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import SystemInfoCard from './components/SystemInfoCard'
 
 interface Props {
   title?: string
@@ -6,20 +7,56 @@ interface Props {
 export const Index: React.FC<Props> = (props) => {
   if (props.title) document.title = props.title
 
+  const [systemInfo, setSystemInfo] = useState<SystemInfo[]>([])
+
   useEffect(() => {
     window.ipcRenderer.invoke('systemInfo').then((res) => {
-      console.log('系统位数：', res.arch, '位')
-      console.log('系统平台：', res.platform)
-      console.log('处理器：', res.cpus.length, '核')
-      console.log('占用情况：', res.metrics)
-      console.log('安装目录：', res.appPath)
-      console.log('Node版本：', res.nodeVersion)
-      console.log('Electron版本：', res.electronVersion)
-      console.log('Chrome版本：', res.chromeVersion)
+      if (res) {
+        setSystemInfo([
+          { key: 'arch', name: '芯片架构', value: res.arch },
+          { key: 'platform', name: '系统平台', value: res.platform },
+          { key: 'cpus', name: '处理器', value: res.cpus.length + '核' },
+          { key: 'metrics', name: '使用率', value: res.metrics }
+        ])
+      }
     })
   }, [])
 
-  return <div className="index-container">Index</div>
+  return (
+    <div className="index-container px-10 py-30 relative">
+      <div className="absolute w-25% h-25% rounded-50% top-40% left-30% transform-translate--50% filter-blur-10rem dark:rainbow-bgc" />
+      <div className="system-info-items flex items-center space-x-10">
+        {systemInfo.length &&
+          systemInfo.map((item: any) => (
+            <div key={item.key} className="system-info-item flex-1 h-24rem">
+              <SystemInfoCard>
+                <div className="card-content relative h-full">
+                  <div className="content px-4 py-2 h-full flex flex-col">
+                    <div className="label text-8 font-bold c-gray-800">{item.key}</div>
+                    <div className="info flex flex-col flex-1">
+                      <div className="name text-4 c-gray-500">{item.name}：</div>
+                      <div className="text flex-1 center text-5 font-bold dark:rainbow-text">
+                        {item.key !== 'metrics' ? (
+                          <div>{item.value}</div>
+                        ) : (
+                          <div className="h-60 space-y-2 overflow-y-auto flex flex-col justify-center">
+                            {item.value &&
+                              item.value.length &&
+                              item.value.map((item2) => (
+                                <div>{`${item2.type}：${item2.cpu.percentCPUUsage.toFixed(2)}%`}</div>
+                              ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </SystemInfoCard>
+            </div>
+          ))}
+      </div>
+    </div>
+  )
 }
 
 export default Index

@@ -7,7 +7,7 @@ import type { ItemType } from 'antd/es/menu/hooks/useItems'
 const menuItems: MenuProps['items'] = [
   {
     label: <NavLink to={'/index'}>{'首页'}</NavLink>,
-    key: '/index',
+    key: '/index'
   },
   {
     label: <NavLink to={'/about'}>{'关于'}</NavLink>,
@@ -31,7 +31,8 @@ export const Header: React.FC<Props> = () => {
     <div className="header-container">
       <div className="menu">
         <Menu
-          className="h-full flex center"
+          theme="dark"
+          className="center"
           selectedKeys={[menuCurrent]}
           mode="horizontal"
           items={menuItems}

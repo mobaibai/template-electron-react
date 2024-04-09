@@ -14,7 +14,9 @@ export const createMainWindow = async () => {
 
   mainWindow = new BrowserWindow({
     title: 'Main window',
+    minWidth: 1280,
     width: 1280,
+    minHeight: 800,
     height: 800,
     useContentSize: true,
     resizable: true,

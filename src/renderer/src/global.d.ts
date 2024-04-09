@@ -36,3 +36,9 @@ type SettingConf = {
   plateFee: string | null
   saveImgPath: string
 }
+
+type SystemInfo = {
+  key: string
+  name: string
+  value: string | T[]
+}

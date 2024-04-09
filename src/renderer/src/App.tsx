@@ -17,7 +17,7 @@ const App: React.FC<Props> = () => {
   const [showConf] = useIsShowStore((state) => [state.showConf])
 
   return (
-    <div className="App w-screen h-screen overflow-hidden">
+    <div className="App w-screen h-screen overflow-hidden bg-#222533">
       <ConfigProvider
         theme={{
           token: {
@@ -26,11 +26,11 @@ const App: React.FC<Props> = () => {
         }}
       >
         <HashRouter>
-          <div
-            className={`bg-image w-screen h-screen`}
-          >
+          <div className={`bg-image w-screen h-screen`}>
             {!showConf.header ? null : <Header />}
-            <RouterConainer />
+            <div className="limit w-1280px mx-auto">
+              <RouterConainer />
+            </div>
           </div>
         </HashRouter>
       </ConfigProvider>
