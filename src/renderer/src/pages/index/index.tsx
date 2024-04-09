@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { nanoid } from 'nanoid'
 import SystemInfoCard from './components/SystemInfoCard'
 
 interface Props {
@@ -7,9 +8,27 @@ interface Props {
 export const Index: React.FC<Props> = (props) => {
   if (props.title) document.title = props.title
 
+  const timer = useRef<any>(null)
   const [systemInfo, setSystemInfo] = useState<SystemInfo[]>([])
 
   useEffect(() => {
+    systemInfoHandler()
+    timer.current = setInterval(() => {
+      systemInfoHandler()
+    }, 5000)
+
+    return () => {
+      if (timer.current) {
+        clearInterval(timer.current)
+      }
+    }
+  }, [])
+
+  /**
+   * @description: 系统信息操作
+   * @return {type}
+   */
+  const systemInfoHandler = () => {
     window.ipcRenderer.invoke('systemInfo').then((res) => {
       if (res) {
         setSystemInfo([
@@ -20,19 +39,19 @@ export const Index: React.FC<Props> = (props) => {
         ])
       }
     })
-  }, [])
+  }
 
   return (
-    <div className="index-container px-10 py-30 relative">
+    <div className="index-container px-10 py-30 relative bg-#222533 h-full">
       <div className="absolute w-25% h-25% rounded-50% top-40% left-30% transform-translate--50% filter-blur-10rem dark:rainbow-bgc" />
       <div className="system-info-items flex items-center space-x-10">
         {systemInfo.length &&
           systemInfo.map((item: any) => (
-            <div key={item.key} className="system-info-item flex-1 h-24rem">
+            <div key={nanoid()} className="system-info-item flex-1 h-24rem">
               <SystemInfoCard>
                 <div className="card-content relative h-full">
                   <div className="content px-4 py-2 h-full flex flex-col">
-                    <div className="label text-8 font-bold c-gray-800">{item.key}</div>
+                    <div className="label text-8 font-bold c-gray-700">{item.key}</div>
                     <div className="info flex flex-col flex-1">
                       <div className="name text-4 c-gray-500">{item.name}：</div>
                       <div className="text flex-1 center text-5 font-bold dark:rainbow-text">
@@ -43,7 +62,9 @@ export const Index: React.FC<Props> = (props) => {
                             {item.value &&
                               item.value.length &&
                               item.value.map((item2) => (
-                                <div>{`${item2.type}：${item2.cpu.percentCPUUsage.toFixed(2)}%`}</div>
+                                <div
+                                  key={nanoid()}
+                                >{`${item2.type}：${item2.cpu.percentCPUUsage.toFixed(2)}%`}</div>
                               ))}
                           </div>
                         )}

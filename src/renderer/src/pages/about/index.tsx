@@ -20,7 +20,7 @@ export const About: React.FC<Props> = (props) => {
     })
   }, [])
 
-  return <div className="about-container">About</div>
+  return <div className="about-container h-full bg-#222533">About</div>
 }
 
 export default About

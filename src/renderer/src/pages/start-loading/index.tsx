@@ -7,9 +7,8 @@ interface Props {
 }
 export const StartLoading: React.FC<Props> = (props) => {
   if (props.title) document.title = props.title
-
   return (
-    <div className="loading-container overflow-hidden select-none rounded-10px w-screen h-screen  bg-#222 opacity-75">
+    <div className="loading-container overflow-hidden select-none rounded-10px w-screen h-screen">
       <LoadingSpin1 />
       {/* <LoadingSpin2 /> */}
       {/* <LoadingEatBeans /> */}
