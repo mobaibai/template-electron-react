@@ -32,3 +32,6 @@ npm run dev
 npm run build:mac(只限于macos系统)
 npm run build:win
 ```
+
+### 预览
+![预览.gif](https://files.catbox.moe/gvy033.gif)
