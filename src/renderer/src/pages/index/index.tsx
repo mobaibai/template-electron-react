@@ -1,6 +1,5 @@
 import { LegacyRef, useEffect, useRef, useState } from 'react'
 import { nanoid } from 'nanoid'
-import { useReactToPrint } from 'react-to-print'
 import SystemInfoCard from './components/SystemInfoCard'
 
 interface Props {
@@ -11,7 +10,6 @@ export const Index: React.FC<Props> = (props) => {
 
   const timer = useRef<LegacyRef<HTMLDivElement> | any>(null)
   const [systemInfo, setSystemInfo] = useState<SystemInfo[]>([])
-  const tablePrintRef = useRef<LegacyRef<HTMLDivElement> | any>()
 
   useEffect(() => {
     systemInfoHandler()
@@ -43,39 +41,8 @@ export const Index: React.FC<Props> = (props) => {
     })
   }
 
-  /**
-   * @description: 打印预览
-   * @param {type} target
-   * @return {type}
-   */
-  const printPdfPreview = function (target) {
-    return new Promise(() => {
-      console.log('forwarding print preview request...')
-
-      const data = target.contentWindow.document.documentElement.outerHTML
-      const blob = new Blob([data], { type: 'text/html;charset=utf-8' })
-      const url = URL.createObjectURL(blob)
-      console.log('url', url)
-
-      window.ipcRenderer.invoke('print-preview', url)
-    })
-  }
-
-  /**
-   * @description: 打印
-   * @return {type}
-   */
-  const pdfPreviewHandler = useReactToPrint({
-    content: () => tablePrintRef.current,
-    documentTitle: '组件打印',
-    print: printPdfPreview
-  })
-
   return (
-    <div
-      className="index-container px-10 py-30 flex flex-col justify-between h-full"
-      ref={tablePrintRef}
-    >
+    <div className="index-container px-10 py-30 flex flex-col justify-between h-full">
       <div className="system-info-items flex items-center space-x-10">
         {systemInfo.length &&
           systemInfo.map((item: any) => (
@@ -107,13 +74,6 @@ export const Index: React.FC<Props> = (props) => {
               </SystemInfoCard>
             </div>
           ))}
-      </div>
-
-      <div className="print flex justify-end">
-        <i
-          className="icon rainbow-text hover:cursor-pointer i-fluent-emoji-high-contrast:printer text-6"
-          onClick={pdfPreviewHandler}
-        />
       </div>
     </div>
   )

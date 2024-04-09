@@ -29,7 +29,7 @@ export const About: React.FC<Props> = (props) => {
           versionInfo.map((item) => (
             <div className="version" key={nanoid()}>
               <span className="text-gray-600 text-4">{item.name}：</span>
-              <span className="rainbow-text font-bold text-4">{item.value}</span>
+              <span className="dark:rainbow-text font-bold text-4">{item.value}</span>
             </div>
           ))}
       </div>
