@@ -83,6 +83,17 @@ export const ipcHandles = () => {
         })
       }
     })
+
+    /* 主进程网络请求  */
+    ipcMain.handle('request', async (event, options) => {
+      const response = await net.fetch(options.url, { ...options })
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`)
+      }
+
+      const body = await response.json()
+      return body
+    })
   }
 
   /**

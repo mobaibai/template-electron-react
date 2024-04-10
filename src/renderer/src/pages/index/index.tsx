@@ -2,6 +2,7 @@ import { LegacyRef, useEffect, useRef, useState } from 'react'
 import { nanoid } from 'nanoid'
 import SystemInfoCard from './components/SystemInfoCard'
 import { Config } from '@renderer/config'
+import { useIpcData } from '@renderer/hooks/useIpcData'
 
 interface Props {
   title?: string
@@ -11,6 +12,35 @@ export const Index: React.FC<Props> = (props) => {
 
   const timer = useRef<LegacyRef<HTMLDivElement> | any>(null)
   const [systemInfo, setSystemInfo] = useState<SystemInfo[]>([])
+
+  const { data: getData } = useIpcData({
+    method: 'get',
+    path: `${Config.API_URL}/motor/pc/car/series/car_list`,
+    params: {
+      aid: '1839',
+      app_name: 'auto_web_pc',
+      city_name: '重庆',
+      series_id: 99
+    }
+  })
+  useEffect(() => {
+    if (getData) console.log('getData', getData)
+  }, [getData])
+
+  const { data: postData } = useIpcData({
+    method: 'post',
+    path: `${Config.API_URL}/motor/pc/car/brand/select_series_v2`,
+    params: {
+      aid: '1839',
+      app_name: 'auto_web_pc',
+      sort_new: 'hot_new',
+      city_name: '重庆',
+      brand: 2
+    }
+  })
+  useEffect(() => {
+    if (postData) console.log('postData', postData)
+  }, [postData])
 
   useEffect(() => {
     systemInfoHandler()

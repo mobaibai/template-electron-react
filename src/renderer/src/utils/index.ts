@@ -2,7 +2,7 @@
  * @description: 时间转换
  * @param {number} time
  * @param {string} format
- * @return {type}
+ * @return {type} TimeString
  */
 export const formatTime = (time: number | string | Date, format: string): string => {
   const date = time ? new Date(time) : new Date()
@@ -24,4 +24,15 @@ export const formatTime = (time: number | string | Date, format: string): string
     .replace(/fff/g, ms)
 
   return formattedTime
+}
+
+/**
+ * @description: 对象转QueryString
+ * @param {type} obj
+ * @return {type} QueryString
+ */
+export const objectToQueryString = (obj) => {
+  return Object.keys(obj)
+    .map((key) => `${key}=${obj[key]}`)
+    .join('&')
 }
