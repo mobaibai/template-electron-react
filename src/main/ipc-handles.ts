@@ -1,8 +1,8 @@
 import { join } from 'path'
-import { ipcMain, dialog, BrowserWindow, app } from 'electron'
+import { ipcMain, dialog, BrowserWindow, app, net } from 'electron'
 import { is } from '@electron-toolkit/utils'
 import getMAC from 'getmac'
-import { arch, cpus, platform, release } from 'os'
+import { arch, cpus, platform } from 'os'
 
 /**
  * @description: Ipc 初始化

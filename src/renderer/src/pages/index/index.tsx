@@ -1,6 +1,7 @@
 import { LegacyRef, useEffect, useRef, useState } from 'react'
 import { nanoid } from 'nanoid'
 import SystemInfoCard from './components/SystemInfoCard'
+import { Config } from '@renderer/config'
 
 interface Props {
   title?: string

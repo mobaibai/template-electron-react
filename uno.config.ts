@@ -12,7 +12,7 @@ export default defineConfig({
     [
       /^rainbow-(\w+)$/,
       ([, name], { rawSelector, currentSelector, variantHandlers, theme }) => {
-        console.log(name, rawSelector, currentSelector, variantHandlers)
+        // console.log(name, rawSelector, currentSelector, variantHandlers)
         const selector = toEscapedSelector(rawSelector)
         const color = `var(--rb-brand${rawSelector.includes('dark:rainbow') ? '-dark' : ''})`
         if (name === 'text') {
@@ -27,7 +27,7 @@ export default defineConfig({
               background-color: ${color};
             }
           `
-        } else {
+        } else if (name === 'a') {
           return `
             ${selector} a {
               color: ${color};
