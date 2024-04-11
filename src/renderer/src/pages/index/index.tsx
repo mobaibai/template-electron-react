@@ -60,7 +60,7 @@ export const Index: React.FC<Props> = (props) => {
    * @return {type}
    */
   const systemInfoHandler = () => {
-    window.ipcRenderer.invoke('systemInfo').then((res) => {
+    window.ipcRenderer.invoke('system-info').then((res) => {
       if (res) {
         setSystemInfo([
           { key: 'arch', name: '芯片', value: res.arch },

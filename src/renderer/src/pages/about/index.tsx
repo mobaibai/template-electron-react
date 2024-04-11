@@ -10,7 +10,7 @@ export const About: React.FC<Props> = (props) => {
   const [versionInfo, setVersionInfo] = useState<{ name: string; value: string }[]>([])
 
   useEffect(() => {
-    window.ipcRenderer.invoke('versionInfo').then((res) => {
+    window.ipcRenderer.invoke('version-info').then((res) => {
       if (res) {
         setVersionInfo([
           { name: 'Node版本', value: res.nodeVersion },

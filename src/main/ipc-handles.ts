@@ -9,14 +9,17 @@ import { arch, cpus, platform } from 'os'
  * @return {type}
  */
 export const ipcHandles = () => {
+  ipcDefault()
+  ipcOpen()
+
   const isDev = is.dev && process.env['ELECTRON_RENDERER_URL'] ? true : false
 
   /**
    * @description: 默认Ipc
    */
-  const defaultIpc = () => {
+  function ipcDefault() {
     /* 系统信息 */
-    ipcMain.handle('systemInfo', () => {
+    ipcMain.handle('system-info', () => {
       return {
         arch: arch(),
         platform: platform(),
@@ -26,7 +29,7 @@ export const ipcHandles = () => {
     })
 
     /* 版本信息 */
-    ipcMain.handle('versionInfo', () => {
+    ipcMain.handle('version-info', () => {
       return {
         nodeVersion: process.versions.node,
         electronVersion: process.versions.electron,
@@ -35,11 +38,32 @@ export const ipcHandles = () => {
       }
     })
 
+    /* 获取 MAC 码 */
+    ipcMain.handle('get-mac', async () => {
+      return getMAC()
+    })
+
+    /* 网络请求  */
+    ipcMain.handle('request', async (event, options) => {
+      const response = await net.fetch(options.url, { ...options })
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`)
+      }
+
+      const body = await response.json()
+      return body
+    })
+
     /* 关闭程序 */
     ipcMain.handle('app-close', () => {
       app.quit()
     })
+  }
 
+  /**
+   * @description: Open类Ipc
+   */
+  function ipcOpen() {
     /** 获取路径 */
     ipcMain.handle('get-path', async () => {
       const { filePaths } = await dialog.showOpenDialog({
@@ -47,11 +71,6 @@ export const ipcHandles = () => {
         properties: ['openFile', 'openDirectory', 'createDirectory']
       })
       return filePaths[0]
-    })
-
-    /* 获取 MAC 码 */
-    ipcMain.handle('get-mac', async () => {
-      return getMAC()
     })
 
     /* 打开子窗口 */
@@ -84,22 +103,6 @@ export const ipcHandles = () => {
       }
     })
 
-    /* 主进程网络请求  */
-    ipcMain.handle('request', async (event, options) => {
-      const response = await net.fetch(options.url, { ...options })
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`)
-      }
-
-      const body = await response.json()
-      return body
-    })
-  }
-
-  /**
-   * @description: 打印Ipc
-   */
-  const printIpc = () => {
     const printOptions = {
       silent: false,
       printBackground: true,
@@ -114,7 +117,6 @@ export const ipcHandles = () => {
       header: 'Page header',
       footer: 'Page footer'
     }
-
     /* 直接打印 */
     ipcMain.handle('print', async (event, url) => {
       const win = new BrowserWindow({ show: false })
@@ -162,10 +164,5 @@ export const ipcHandles = () => {
       await childWin.loadURL(url)
       return 'shown preview window'
     })
-  }
-
-  return {
-    defaultIpc,
-    printIpc
   }
 }
