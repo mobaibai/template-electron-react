@@ -59,7 +59,7 @@ const menu: Array<MenuItemConstructorOptions | MenuItem> = [
           })
 
           if (res.response == 1) {
-            shell.openExternal('https://github.com/ice-lab/electron-react-vite')
+            shell.openExternal('https://github.com/mobaibai/template-electron-react')
           }
         }
       }
