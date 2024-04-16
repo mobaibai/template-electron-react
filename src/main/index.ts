@@ -7,7 +7,6 @@ import { createWindow, createMainWindow } from './window-manager'
 app.whenReady().then(() => {
   electronApp.setAppUserModelId('com.electron')
 
-  // const { ipcDefault, ipcOpen } = ipcHandles()
   const { creactMenu } = useMenu()
 
   /* 创建菜单 */

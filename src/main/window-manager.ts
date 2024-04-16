@@ -1,6 +1,5 @@
 import { join } from 'path'
-import os from 'os'
-import { BrowserWindow, shell, app } from 'electron'
+import { BrowserWindow, shell } from 'electron'
 import { is } from '@electron-toolkit/utils'
 
 let mainWindow: BrowserWindow
