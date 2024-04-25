@@ -36,3 +36,35 @@ export const objectToQueryString = (obj) => {
     .map((key) => `${key}=${obj[key]}`)
     .join('&')
 }
+
+/**
+ * @description: 文件单位转换
+ * @param {number} size 文件大小
+ * @param {string} fromUnit 初始单位
+ * @param {string} toUnit 目标单位
+ * @param {number} decimalPoint 保留小数位
+ * @return {string | null} 转换结果，如果参数无效，则返回 null
+ */
+export const convertFileSize = (
+  size: number,
+  fromUnit: 'B' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB',
+  toUnit: 'B' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB',
+  decimalPoint: number = 2
+): string | null => {
+  const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+  const fromIndex = units.indexOf(fromUnit)
+  const toIndex = units.indexOf(toUnit)
+
+  if (fromIndex === -1 || toIndex === -1) {
+    return null
+  }
+
+  if (!Number.isInteger(decimalPoint)) {
+    return null
+  }
+
+  const exponent = toIndex - fromIndex
+  const resultSize = size / Math.pow(1024, exponent)
+
+  return `${parseFloat(resultSize.toFixed(decimalPoint))} ${toUnit}`
+}
