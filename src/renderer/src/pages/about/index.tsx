@@ -1,3 +1,4 @@
+import { useTitle } from '@renderer/hooks/useTitle'
 import { nanoid } from 'nanoid'
 import { useEffect, useState } from 'react'
 
@@ -5,7 +6,7 @@ interface Props {
   title?: string
 }
 export const About: React.FC<Props> = (props) => {
-  if (props.title) document.title = props.title
+  if (props.title) useTitle(props.title)
 
   const [versionInfo, setVersionInfo] = useState<{ name: string; value: string }[]>([])
 

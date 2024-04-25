@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { getStorage, removeStorage, setStorage } from '@renderer/storage'
 
-interface Loading {
+type Loading = {
   loadingOpen: boolean
   setLoadingOpen: (loadingOpen: boolean) => void
 }
@@ -17,11 +17,11 @@ export const useLoadingStore = create<Loading>((set) => ({
   }
 }))
 
-interface UserData {
+type UserData = {
   uid: number | string
   outtime: number
 }
-interface UseUserType {
+type UseUserType = {
   userData: UserData
   setUserData: (userData: UserData) => void
   removeUserData: () => void
@@ -54,11 +54,11 @@ export const useUserStore = create<UseUserType>((set) => {
   }
 })
 
-interface ShowConf {
+type ShowConf = {
   header?: boolean
   listBg?: boolean
 }
-interface IsShow {
+type IsShow = {
   showConf: ShowConf
   setIsShow: (showConf: ShowConf) => void
 }
@@ -69,5 +69,20 @@ export const useIsShowStore = create<IsShow>((set) => ({
   showConf: { header: false, listBg: false },
   setIsShow: (showConf: ShowConf) => {
     set({ showConf })
+  }
+}))
+
+type PageTitle = {
+  pageTitle: string
+  setPageTitle: (pageTitle: string) => void
+}
+/**
+ * @description: 页面Title
+ * @param {type} create
+ */
+export const usePageTitle = create<PageTitle>((set) => ({
+  pageTitle: '造风者OKR',
+  setPageTitle: (pageTitle: string) => {
+    set({ pageTitle })
   }
 }))

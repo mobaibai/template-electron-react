@@ -3,12 +3,13 @@ import { nanoid } from 'nanoid'
 import SystemInfoCard from './components/SystemInfoCard'
 import { Config } from '@renderer/config'
 import { useIpcData } from '@renderer/hooks/useIpcData'
+import { useTitle } from '@renderer/hooks/useTitle'
 
 interface Props {
   title?: string
 }
 export const Index: React.FC<Props> = (props) => {
-  if (props.title) document.title = props.title
+  if (props.title) useTitle(props.title)
 
   const timer = useRef<LegacyRef<HTMLDivElement> | any>(null)
   const [systemInfo, setSystemInfo] = useState<SystemInfo[]>([])
