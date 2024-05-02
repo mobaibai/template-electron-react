@@ -1,3 +1,4 @@
+import { HashRouter } from 'react-router-dom'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import 'virtual:uno.css'
@@ -13,6 +14,8 @@ const root = ReactDOM.createRoot(rootDiv)
 
 root.render(
   <ConfigProvider locale={zhCN}>
-    <App />
+    <HashRouter>
+      <App />
+    </HashRouter>
   </ConfigProvider>
 )
