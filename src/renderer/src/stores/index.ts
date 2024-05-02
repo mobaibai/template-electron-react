@@ -54,24 +54,6 @@ export const useUserStore = create<UseUserType>((set) => {
   }
 })
 
-type ShowConf = {
-  header?: boolean
-  listBg?: boolean
-}
-type IsShow = {
-  showConf: ShowConf
-  setIsShow: (showConf: ShowConf) => void
-}
-/**
- * @description: 页面显示配置
- */
-export const useIsShowStore = create<IsShow>((set) => ({
-  showConf: { header: false, listBg: false },
-  setIsShow: (showConf: ShowConf) => {
-    set({ showConf })
-  }
-}))
-
 type PageTitle = {
   pageTitle: string
   setPageTitle: (pageTitle: string) => void

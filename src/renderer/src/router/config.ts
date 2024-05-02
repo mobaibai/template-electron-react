@@ -1,5 +1,6 @@
 import { lazy } from 'react'
 import { LayoutPage } from '@renderer/layout'
+import StartLoading from '@renderer/pages/start-loading'
 
 export interface RouteType {
   key?: string
@@ -20,11 +21,6 @@ export const RouteItems: RouteType[] = [
     redirect: '/index',
     children: [
       {
-        name: '加载中...',
-        path: '/start-loading',
-        Element: lazy(() => import('@renderer/pages/start-loading'))
-      },
-      {
         name: '首页',
         path: '/index',
         Element: lazy(() => import('@renderer/pages/index'))
@@ -35,5 +31,10 @@ export const RouteItems: RouteType[] = [
         Element: lazy(() => import('@renderer/pages/about'))
       }
     ]
+  },
+  {
+    name: '加载中...',
+    path: '/start-loading',
+    Element: StartLoading
   }
 ]

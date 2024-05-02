@@ -1,6 +1,7 @@
-import { useTitle } from '@renderer/hooks/useTitle'
+import { LegacyRef, useEffect, useRef, useState } from 'react'
 import { nanoid } from 'nanoid'
-import { useEffect, useState } from 'react'
+import { useReactToPrint } from 'react-to-print'
+import { useTitle } from '@renderer/hooks/useTitle'
 
 interface Props {
   title?: string
@@ -9,6 +10,7 @@ export const About: React.FC<Props> = (props) => {
   if (props.title) useTitle(props.title)
 
   const [versionInfo, setVersionInfo] = useState<{ name: string; value: string }[]>([])
+  const tablePrintRef = useRef<LegacyRef<HTMLDivElement> | any>()
 
   useEffect(() => {
     window.ipcRenderer.invoke('version-info').then((res) => {
@@ -23,8 +25,36 @@ export const About: React.FC<Props> = (props) => {
     })
   }, [])
 
+  /**
+   * @description: 打印预览
+   * @param {type} target
+   * @return {type}
+   */
+  const printPdfPreview = function (target) {
+    return new Promise(() => {
+      console.log('forwarding print preview request...')
+
+      const data = target.contentWindow.document.documentElement.outerHTML
+      const blob = new Blob([data], { type: 'text/html;charset=utf-8' })
+      const url = URL.createObjectURL(blob)
+      console.log('url', url)
+
+      window.ipcRenderer.invoke('print-preview', url)
+    })
+  }
+
+  /**
+   * @description: 打印
+   * @return {type}
+   */
+  const pdfPreviewHandler = useReactToPrint({
+    content: () => tablePrintRef.current,
+    documentTitle: '组件打印',
+    print: printPdfPreview
+  })
+
   return (
-    <div className="about-container h-full flex-col center">
+    <div className="about-container h-full center relative" ref={tablePrintRef}>
       <div className="versions space-y-10">
         {versionInfo.length &&
           versionInfo.map((item) => (
@@ -33,6 +63,12 @@ export const About: React.FC<Props> = (props) => {
               <span className="dark:rainbow-text font-bold text-4">{item.value}</span>
             </div>
           ))}
+      </div>
+      <div
+        className="print absolute bottom-10 right-10 dark:rainbow-text hover:cursor-pointer text-4 hover:text-5 transition-all"
+        onClick={pdfPreviewHandler}
+      >
+        打印
       </div>
     </div>
   )
