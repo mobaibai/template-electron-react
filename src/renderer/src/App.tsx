@@ -1,10 +1,10 @@
-import { LegacyRef, useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { ConfigProvider } from 'antd'
 import vhCheck from 'vh-check'
-import { useReactToPrint } from 'react-to-print'
 import RouterConainer from './router'
 import { ThemePrimary } from '@renderer/config'
+import 'virtual:svgsprites'
 import './styles/global.scss'
 import './styles/app.scss'
 
@@ -15,7 +15,6 @@ interface Props {
 }
 const App: React.FC<Props> = () => {
   const _location = useLocation()
-
   const [isStart, setIsStart] = useState(false)
 
   useEffect(() => {

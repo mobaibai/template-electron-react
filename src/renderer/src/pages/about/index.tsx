@@ -2,6 +2,7 @@ import { LegacyRef, useEffect, useRef, useState } from 'react'
 import { nanoid } from 'nanoid'
 import { useReactToPrint } from 'react-to-print'
 import { useTitle } from '@renderer/hooks/useTitle'
+import { Icon } from '@renderer/components/Icon'
 
 interface Props {
   title?: string
@@ -65,10 +66,10 @@ export const About: React.FC<Props> = (props) => {
           ))}
       </div>
       <div
-        className="print absolute bottom-10 right-10 dark:rainbow-text hover:cursor-pointer text-4 hover:text-5 transition-all"
+        className="print absolute bottom-10 right-10 dark:rainbow-text hover:cursor-pointer text-5 hover:text-6 transition-all center space-x-2"
         onClick={pdfPreviewHandler}
       >
-        打印
+        <Icon name="print" />
       </div>
     </div>
   )

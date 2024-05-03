@@ -18,16 +18,16 @@ export const RouteItems: RouteType[] = [
   {
     path: '/',
     Element: LayoutPage,
-    redirect: '/index',
+    redirect: 'index',
     children: [
       {
         name: '首页',
-        path: '/index',
+        path: 'index',
         Element: lazy(() => import('@renderer/pages/index'))
       },
       {
         name: '关于',
-        path: '/about',
+        path: 'about',
         Element: lazy(() => import('@renderer/pages/about'))
       }
     ]

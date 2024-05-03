@@ -82,7 +82,9 @@ export const Index: React.FC<Props> = (props) => {
               <SystemInfoCard>
                 <div className="card-content relative h-full">
                   <div className="content px-4 py-2 h-full flex flex-col">
-                    <div className="label text-8 font-bold c-gray-700">{item.key}</div>
+                    <div className="label text-8 font-bold c-gray-700 flex items-center">
+                      {item.key}
+                    </div>
                     <div className="info flex flex-col flex-1">
                       <div className="name text-4 c-gray-500">{item.name}：</div>
                       <div className="text flex-1 center text-5 font-bold dark:rainbow-text">
