@@ -11,9 +11,9 @@ export const StartLoading: React.FC<Props> = (props) => {
 
   return (
     <div className="loading-container overflow-hidden select-none rounded-10px w-screen h-screen">
-      <LoadingSpin1 />
+      {/* <LoadingSpin1 /> */}
       {/* <LoadingSpin2 /> */}
-      {/* <LoadingEatBeans /> */}
+      <LoadingEatBeans />
     </div>
   )
 }
