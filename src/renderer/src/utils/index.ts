@@ -5,6 +5,10 @@
  * @return {type} TimeString
  */
 export const formatTime = (time: number | string | Date, format: string): string => {
+  if (typeof time === 'string') time = Number(time)
+  if (typeof time !== 'number' || Number.isNaN(time)) return ''
+  if (!format) format = 'yyyy-MM-dd HH:mm:ss'
+
   const date = time ? new Date(time) : new Date()
   const year = date.getFullYear()
   const month = (date.getMonth() + 1).toString().padStart(2, '0')
