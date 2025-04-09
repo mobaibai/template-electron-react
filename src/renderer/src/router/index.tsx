@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import type { RouteType } from './config'
-import { RouteItems } from './config'
+import { type RouteType, RouteItems } from './config'
 import { Loading } from '@renderer/components/Loading'
 
 const RouterViews = (routerItems: RouteType[]) => {
@@ -18,7 +17,7 @@ const RouterViews = (routerItems: RouteType[]) => {
           }
         >
           {RouterViews(children)}
-          <Route path={path} element={<Navigate to={!redirect ? children[0].path : redirect} />} />
+          <Route index path={path} element={<Navigate to={redirect || ''} />} />
         </Route>
       ) : (
         <Route
