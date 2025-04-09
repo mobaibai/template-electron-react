@@ -17,7 +17,7 @@ const RouterViews = (routerItems: RouteType[]) => {
           }
         >
           {RouterViews(children)}
-          <Route index path={path} element={<Navigate to={redirect || ''} />} />
+          <Route index element={<Navigate to={redirect || ''} replace />} />
         </Route>
       ) : (
         <Route
