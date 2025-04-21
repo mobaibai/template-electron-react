@@ -2,7 +2,7 @@
 
 ### 问题
 ```
-在windows上会有渐变色失效与打印样式问题，macos显示完美
+如使用 Pnpm 会有软链相关问题，可不用 Pnpm
 ```
 
 ### 功能
@@ -21,11 +21,7 @@
 
 ### 使用
 ```
-pnpm install
-or
 npm install
-or
-yarn
 
 npm run dev
 
