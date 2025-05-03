@@ -26,6 +26,11 @@ export const RouteItems: RouteType[] = [
         Element: lazy(() => import('@renderer/pages/index'))
       },
       {
+        name: '模型',
+        path: 'model',
+        Element: lazy(() => import('@renderer/pages/model'))
+      },
+      {
         name: '关于',
         path: 'about',
         Element: lazy(() => import('@renderer/pages/about'))

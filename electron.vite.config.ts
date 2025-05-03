@@ -21,6 +21,14 @@ export default defineConfig({
     plugins: [UnoCSS(), react(), svgsprites({ noOptimizeList: ['logo'] })],
     define: {
       __APP_VERSION__: JSON.stringify(process.env.npm_package_version)
-    }
+    },
+    assetsInclude: [
+      /* 二进制打包模型 */
+      '**/*.glb',
+      /* HDR环境贴图 */
+      '**/*.hdr',
+      /* 压缩纹理 */
+      '**/*.ktx2'
+    ]
   }
 })

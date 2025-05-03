@@ -10,6 +10,10 @@ const menuItems: MenuProps['items'] = [
     key: '/index'
   },
   {
+    label: <NavLink to={'/model'}>{'模型'}</NavLink>,
+    key: '/model'
+  },
+  {
     label: <NavLink to={'/about'}>{'关于'}</NavLink>,
     key: '/about'
   }
