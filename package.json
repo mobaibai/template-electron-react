@@ -56,7 +56,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
     "react-to-print": "^2.15.1",
-    "sass": "^1.72.0",
+    "sass": "^1.89.0",
     "svgo": "^3.2.0",
     "svgstore": "^3.0.1",
     "swr": "^2.2.5",

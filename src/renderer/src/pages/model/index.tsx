@@ -60,11 +60,17 @@ export const ModelPage: React.FC<Props> = (props) => {
 }
 
 useGLTF.preload(RobotGlb)
-const RobotModel = () => {
-  const { scene, animations } = useGLTF(RobotGlb) as any
-  const { actions } = useAnimations(animations, scene)
+const RobotModel = (props) => {
+  const { nodes, materials } = useGLTF(RobotGlb) as any
 
-  return <primitive object={scene} />
+  return (
+    <group {...props} dispose={null}>
+      <mesh
+        geometry={nodes['tripo_node_3790c885-dbc6-460a-9d3e-164d49b632ff'].geometry}
+        material={materials['tripo_material_3790c885-dbc6-460a-9d3e-164d49b632ff']}
+      />
+    </group>
+  )
 }
 
 export default ModelPage

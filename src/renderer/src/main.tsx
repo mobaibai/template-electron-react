@@ -6,6 +6,7 @@ import { ConfigProvider } from 'antd'
 import zhCN from 'antd/locale/zh_CN'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
+import { Loader } from '@react-three/drei'
 
 dayjs.locale('zh-cn')
 
@@ -16,6 +17,7 @@ root.render(
   <ConfigProvider locale={zhCN}>
     <HashRouter>
       <App />
+      <Loader />
     </HashRouter>
   </ConfigProvider>
 )
