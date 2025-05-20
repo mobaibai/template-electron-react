@@ -10,32 +10,32 @@ const menu: Array<MenuItemConstructorOptions | MenuItem> = [
     submenu: [
       {
         label: '复制',
-        accelerator: 'Cmd+COrCtrl+C',
+        accelerator: 'CmdOrCtrl+C',
         role: 'copy'
       },
       {
         label: '粘贴',
-        accelerator: 'Cmd+VOrCtrl+V',
+        accelerator: 'CmdOrCtrl+V',
         role: 'paste'
       },
       {
         label: '全选',
-        accelerator: 'Cmd+AOrCtrl+A',
+        accelerator: 'CmdOrCtrl+A',
         role: 'selectAll'
       },
       {
         label: '快速重启',
-        accelerator: 'Cmd+ROrCtrl+R',
+        accelerator: 'CmdOrCtrl+R',
         role: 'reload'
       },
       {
         label: '关闭当前窗口',
-        accelerator: 'Cmd+WOrCtrl+W',
+        accelerator: 'CmdOrCtrl+W',
         role: 'close'
       },
       {
         label: '关闭所有窗口',
-        accelerator: 'Cmd+QOrCtrl+Q',
+        accelerator: 'CmdOrCtrl+Q',
         role: 'quit'
       }
     ]
@@ -79,7 +79,7 @@ export const useMenu = () => {
         submenu: [
           {
             label: '切换到开发者模式',
-            accelerator: 'Option+Cmd+IOrCtrl+I',
+            accelerator: 'Cmd+Alt+IOrCtrl+Alt+I',
             role: 'toggleDevTools'
           }
         ]

@@ -5,7 +5,7 @@ import { useMenu } from './hooks/menu'
 import { createWindow, createMainWindow } from './window-manager'
 
 app.whenReady().then(() => {
-  electronApp.setAppUserModelId('com.electron')
+  electronApp.setAppUserModelId('com.electrontmp.app')
 
   const { creactMenu } = useMenu()
 

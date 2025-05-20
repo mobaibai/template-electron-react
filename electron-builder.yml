@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: 'TemplateElectronReact'
+appId: com.electrontmp.app
+productName: TemplateElectronReact
 directories:
   buildResources: build
 files:
@@ -12,7 +12,10 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: 'TemplateElectronReact'
+  requestedExecutionLevel: highestAvailable
+  executableName: TemplateElectronReact
+  target: nsis
+  icon: build/icon.ico
 nsis:
   artifactName: ${description}-${version}-setup.${ext}
   shortcutName: ${productName}
