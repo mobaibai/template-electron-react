@@ -15,6 +15,12 @@ interface Props {
  * @param {type} params 请求参数
  * @param {type} swrConf SWR 设置
  * @return {type}
+ * @example:
+ * const { data, mutate, isLoading, isValidating, error } = useIpcData({
+  *   method: 'get',
+  *   path: '/api/test/list',
+  *   params: { count: 10 }
+  * })
  */
 export const useIpcData = ({
   method = 'get',

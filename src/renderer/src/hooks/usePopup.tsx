@@ -4,6 +4,20 @@ import { PopupType } from '@renderer/components/Popup'
 
 const Popup = lazy(() => import('@renderer/components/Popup'))
 
+/**
+ * @description: 弹窗
+ * @param {PopupType} options
+ * @return {type}
+ * @example:
+ * const { popup, show, hide, toggle } = usePopup({
+    children: <div className='popup-content'>这是一个全局弹窗</div>
+  })
+ * --HTML--
+ * <div className='popup-container'>
+ *   <button onClick={() => show()}>打开弹窗</button>
+ *   {popup}
+ * </div>
+ */
 export const usePopup = (options: PopupType) => {
   const { isOpen = false, title, maskClosable, width, className, style, children } = options
   const [open, setOpen] = useState(isOpen)

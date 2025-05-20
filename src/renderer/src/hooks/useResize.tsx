@@ -10,6 +10,23 @@ type ResizeType = {
   fullScreen?: boolean
   delay?: number
 }
+/**
+ * @description: 数据大屏适配
+ * @param {ResizeType} options
+ * @return {type}
+ * @example:
+ * const designWidth = 1875 // 设计稿宽度
+ * const designHeight = 1044 // 设计稿高度
+ * document.documentElement.style.setProperty('--design-width', `${designWidth}px`) // Css变量
+ * document.documentElement.style.setProperty('--design-height', `${designHeight}px`)
+ * const { screenRef } = useResize({ w: designWidth, h: designHeight， fullScreen: false, delay: 100 })
+ * --HTML--
+ * <div className='data-screen-container relative m-0 w-screen h-screen overflow-hidden'>
+ *   <div className='screen-bg absolute top-1/2 left-1/2 w-[var(--design-width)] h-[var(--design-height)] ml-[calc(var(--design-width)*0.5-var(--design-width))] mt-[calc(var(--design-height)*0.5-var(--design-height))]'>
+ *     内容展示区域
+ *   </div>
+ * </div>
+ */
 export const useResize = (options: ResizeType = {}) => {
   const { w = width, h = height, fullScreen = false, delay = 100 } = options
   // 缩放元素

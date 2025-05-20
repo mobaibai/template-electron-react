@@ -9,6 +9,14 @@ type Loading = {
  * @description: 设置Loading
  * @param {type} create
  * @return {type}
+* @example:
+ * const { loadingOpen, setLoadingOpen } = useLoadingStore()
+ * --HTML--
+ * <div className='loading-container'>
+ *   <button onClick={() => setLoadingOpen(true)}>打开Loading</button>
+ *   <button onClick={() => setLoadingOpen(false)}>关闭Loading</button>
+ *   {loadingOpen && <Loading />}
+ * </div>
  */
 export const useLoadingStore = create<Loading>((set) => ({
   loadingOpen: false,
@@ -30,6 +38,8 @@ type UseUserType = {
  * @description: 登录数据处理
  * @param {type} create
  * @return {type}
+ * @example:
+ * const { userData, setUserData, removeUserData } = useUserStore()
  */
 export const useUserStore = create<UseUserType>((set) => {
   const initialValue: UserData = {
@@ -61,9 +71,15 @@ type PageTitle = {
 /**
  * @description: 页面Title
  * @param {type} create
+ * @return {type}
+ * @example:
+ * const { pageTitle, setPageTitle } = usePageTitle()
+ * --HTML--
+ * <div>{pageTitle}</div>
+ * <button onClick={() => setPageTitle('页面标题')}>设置标题</button>
  */
 export const usePageTitle = create<PageTitle>((set) => ({
-  pageTitle: '造风者OKR',
+  pageTitle: '页面标题',
   setPageTitle: (pageTitle: string) => {
     set({ pageTitle })
   }
