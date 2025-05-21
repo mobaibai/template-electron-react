@@ -22,7 +22,7 @@ type ResizeType = {
  * const { screenRef } = useResize({ w: designWidth, h: designHeight， fullScreen: false, delay: 100 })
  * --HTML--
  * <div className='data-screen-container relative m-0 w-screen h-screen overflow-hidden'>
- *   <div className='screen-bg absolute top-1/2 left-1/2 w-[var(--design-width)] h-[var(--design-height)] ml-[calc(var(--design-width)*0.5-var(--design-width))] mt-[calc(var(--design-height)*0.5-var(--design-height))]'>
+ *   <div ref={screenRef} className='screen-bg absolute top-1/2 left-1/2 w-[var(--design-width)] h-[var(--design-height)] ml-[calc(var(--design-width)*0.5-var(--design-width))] mt-[calc(var(--design-height)*0.5-var(--design-height))]'>
  *     内容展示区域
  *   </div>
  * </div>
