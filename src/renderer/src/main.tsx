@@ -15,7 +15,12 @@ const root = ReactDOM.createRoot(rootDiv)
 
 root.render(
   <ConfigProvider locale={zhCN}>
-    <HashRouter>
+    <HashRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true
+      }}
+    >
       <App />
       <Loader />
     </HashRouter>

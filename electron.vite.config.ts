@@ -19,6 +19,13 @@ export default defineConfig({
       }
     },
     plugins: [UnoCSS(), react(), svgsprites({ noOptimizeList: ['logo'] })],
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler'
+        }
+      }
+    },
     define: {
       __APP_VERSION__: JSON.stringify(process.env.npm_package_version)
     },
