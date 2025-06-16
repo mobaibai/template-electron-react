@@ -25,6 +25,11 @@ nsis:
   allowToChangeInstallationDirectory: true
   installerIcon: build/icon.ico
 mac:
+  target:
+    - target: dmg
+      arch:
+        - x64
+        - arm64
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
     - NSCameraUsageDescription: Application requests access to the device's camera.
@@ -33,7 +38,7 @@ mac:
     - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
   notarize: false
 dmg:
-  artifactName: ${description}-${version}.${ext}
+  artifactName: ${description}-${version}-${arch}.${ext}
 linux:
   target:
     - AppImage
