@@ -3,6 +3,7 @@ import { ipcMain, dialog, BrowserWindow, app, net } from 'electron'
 import { is } from '@electron-toolkit/utils'
 import getMAC from 'getmac'
 import { arch, cpus, platform } from 'os'
+import { autoUpdaterManager } from './auto-updater'
 
 /**
  * @description: Ipc 初始化
@@ -11,6 +12,7 @@ import { arch, cpus, platform } from 'os'
 export const ipcHandles = () => {
   ipcDefault()
   ipcOpen()
+  ipcAutoUpdater()
 
   const isDev = is.dev && process.env['ELECTRON_RENDERER_URL'] ? true : false
 
@@ -163,6 +165,36 @@ export const ipcHandles = () => {
 
       await childWin.loadURL(url)
       return 'shown preview window'
+    })
+  }
+
+  /**
+   * @description: 自动更新相关IPC
+   */
+  function ipcAutoUpdater() {
+    /* 手动检查更新 */
+    ipcMain.handle('check-for-updates', async () => {
+      try {
+        autoUpdaterManager.checkForUpdates()
+        return { success: true, message: '开始检查更新' }
+      } catch (error: unknown | any) {
+        return { success: false, message: error.message }
+      }
+    })
+
+    /* 立即安装更新 */
+    ipcMain.handle('quit-and-install', async () => {
+      try {
+        autoUpdaterManager.quitAndInstall()
+        return { success: true, message: '开始安装更新' }
+      } catch (error: unknown | any) {
+        return { success: false, message: error.message }
+      }
+    })
+
+    /* 获取应用版本 */
+    ipcMain.handle('get-app-version', () => {
+      return app.getVersion()
     })
   }
 }
