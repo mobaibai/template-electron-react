@@ -126,7 +126,7 @@ export function hasStorage(key: string) {
  */
 export function getStorageKeys() {
   const items = getStorageAll()
-  const keys = []
+  const keys: (string | null)[] = []
   for (let index = 0; index < items.length; index++) {
     keys.push(items[index].key)
   }
@@ -163,9 +163,9 @@ export function getStorageLength({ type = "localStorage" }: ConfigType = {}) {
  * @example:
  * const all = getStorageAll({ type: "localStorage" })
  */
-export function getStorageAll({ type = "localStorage" }: ConfigType = {}) {
+export function getStorageAll({ type = "localStorage" }: ConfigType = {}): Array<{ key: string | null; val: string | null }> {
   const len = window[type].length // 获取长度
-  const arr = [] // 定义数据集
+  const arr: Array<{ key: string | null; val: string | null }> = [] // 定义数据集
   for (let i = 0; i < len; i++) {
     // 获取key 索引从0开始
     const getKey = window[type].key(i)

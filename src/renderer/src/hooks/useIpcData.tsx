@@ -38,7 +38,7 @@ export const useIpcData = ({
     path,
     async (path: string) => {
       const res = await window.ipcRenderer.invoke('request', {
-        url: method === 'get' ? `${path}?${objectToQueryString(params)}` : path,
+        url: method === 'get' ? `${path}?${objectToQueryString(typeof params === 'object' && params !== null && !Array.isArray(params) ? params : {})}` : path,
         method: method === 'get' ? 'GET' : 'POST'
       })
 
