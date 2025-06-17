@@ -115,6 +115,15 @@ export function useAutoUpdater() {
     }
 
     // 下载进度
+    const handleDownloadStarted = (event, info: UpdateInfo) => {
+      setUpdateState(prev => ({
+        ...prev,
+        downloading: true,
+        progress: null,
+        updateInfo: info
+      }))
+    }
+
     const handleProgress = (event, progress: UpdateProgress) => {
       setUpdateState(prev => ({
         ...prev,
@@ -138,6 +147,7 @@ export function useAutoUpdater() {
     window.ipcRenderer.on?.('auto-updater-update-available', handleAvailable)
     window.ipcRenderer.on?.('auto-updater-update-not-available', handleNotAvailable)
     window.ipcRenderer.on?.('auto-updater-update-error', handleError)
+    window.ipcRenderer.on?.('auto-updater-update-download-started', handleDownloadStarted)
     window.ipcRenderer.on?.('auto-updater-update-download-progress', handleProgress)
     window.ipcRenderer.on?.('auto-updater-update-downloaded', handleDownloaded)
 
@@ -150,6 +160,7 @@ export function useAutoUpdater() {
       window.ipcRenderer.off?.('auto-updater-update-available', handleAvailable)
       window.ipcRenderer.off?.('auto-updater-update-not-available', handleNotAvailable)
       window.ipcRenderer.off?.('auto-updater-update-error', handleError)
+      window.ipcRenderer.off?.('auto-updater-update-download-started', handleDownloadStarted)
       window.ipcRenderer.off?.('auto-updater-update-download-progress', handleProgress)
       window.ipcRenderer.off?.('auto-updater-update-downloaded', handleDownloaded)
     }

@@ -20,7 +20,8 @@ export const About: React.FC<Props> = (props) => {
           { name: 'Node版本', value: res.nodeVersion },
           { name: 'Electron版本', value: res.electronVersion },
           { name: 'Chrome版本', value: res.chromeVersion },
-          { name: '模板版本', value: res.appVersion }
+          { name: '模板版本', value: res.appVersion },
+          // { name: '热更新测试', value: '热更新成功' }
         ])
       }
     })

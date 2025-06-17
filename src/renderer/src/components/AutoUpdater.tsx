@@ -52,7 +52,7 @@ export const AutoUpdater: React.FC = () => {
       )
     }
 
-    if (downloading && progress) {
+    if (downloading) {
       return (
         <div>
           <Alert
@@ -63,17 +63,23 @@ export const AutoUpdater: React.FC = () => {
             showIcon
           />
           <div style={{ marginTop: 16 }}>
-            <Progress
-              percent={Math.round(progress.percent)}
-              status="active"
-              format={(percent) => `${percent}%`}
-            />
-            <div style={{ marginTop: 8, fontSize: '12px', color: '#666' }}>
-              <Text type="secondary">
-                已下载: {(progress.transferred / 1024 / 1024).toFixed(2)} MB / 
-                总大小: {(progress.total / 1024 / 1024).toFixed(2)} MB
-              </Text>
-            </div>
+            {progress ? (
+              <>
+                <Progress
+                  percent={Math.round(progress.percent)}
+                  status="active"
+                  format={(percent) => `${percent}%`}
+                />
+                <div style={{ marginTop: 8, fontSize: '12px', color: '#666' }}>
+                  <Text type="secondary">
+                    已下载: {(progress.transferred / 1024 / 1024).toFixed(2)} MB / 
+                    总大小: {(progress.total / 1024 / 1024).toFixed(2)} MB
+                  </Text>
+                </div>
+              </>
+            ) : (
+              <Progress percent={0} status="active" format={() => '准备下载...'} />
+            )}
           </div>
         </div>
       )

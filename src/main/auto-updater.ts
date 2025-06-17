@@ -1,6 +1,13 @@
 import { autoUpdater } from 'electron-updater'
 import { dialog, BrowserWindow } from 'electron'
 
+// 导入类型定义
+export interface UpdateInfo {
+  version: string
+  releaseNotes?: string | null
+  releaseDate?: string
+}
+
 /**
  * 自动更新管理器
  */
@@ -16,7 +23,6 @@ export class AutoUpdaterManager {
    * 设置自动更新
    */
   private setupAutoUpdater() {
-    // 开发环境下禁用自动更新
     if (process.env.NODE_ENV === 'development') {
       console.log('开发环境，跳过自动更新检查')
       return
@@ -49,7 +55,12 @@ export class AutoUpdaterManager {
     autoUpdater.on('update-available', (info) => {
       console.log('发现新版本:', info.version)
       this.sendToRenderer('update-available', info)
-      this.showUpdateDialog(info)
+      // 将 electron-updater 的 UpdateInfo 类型转换为本地 UpdateInfo 类型
+      this.showUpdateDialog({
+        version: info.version,
+        releaseNotes: typeof info.releaseNotes === 'string' ? info.releaseNotes : null,
+        releaseDate: info.releaseDate
+      })
     })
 
     autoUpdater.on('update-not-available', (info) => {
@@ -80,7 +91,7 @@ export class AutoUpdaterManager {
    */
   public checkForUpdates() {
     if (process.env.NODE_ENV === 'development') {
-      console.log('开发环境，跳过更新检查')
+      console.log('开发环境，跳过自动更新检查')
       return
     }
     autoUpdater.checkForUpdatesAndNotify()
@@ -89,18 +100,22 @@ export class AutoUpdaterManager {
   /**
    * 显示更新可用对话框
    */
-  private async showUpdateDialog(info: any) {
+  private async showUpdateDialog(info: UpdateInfo) {
     const { response } = await dialog.showMessageBox({
       type: 'info',
       title: '发现新版本',
       message: `发现新版本 ${info.version}，是否立即下载？`,
       detail: info.releaseNotes || '新版本包含功能改进和错误修复',
-      buttons: ['立即下载', '稍后提醒'],
-      defaultId: 0,
-      cancelId: 1
+      buttons: ['稍后提醒', '立即下载'],
+      defaultId: 1,
+      cancelId: 0
     })
 
-    if (response === 0) {
+    if (response === 1) {
+      console.log('开始下载更新...')
+      // 立即发送下载开始事件
+      this.sendToRenderer('update-download-started', info)
+      // 开始下载
       autoUpdater.downloadUpdate()
     }
   }
