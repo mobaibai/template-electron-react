@@ -4,6 +4,7 @@
   "description": "TemplateElectronReact",
   "main": "./out/main/index.js",
   "homepage": ".",
+  "license": "MIT",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
