@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Release version (e.g., v0.0.0)'
+        description: 'Release version (e.g., v0.0.1)'
         required: true
-        default: 'v0.0.0'
+        default: 'v0.0.1'
 
 jobs:
   release:
@@ -22,8 +22,6 @@ jobs:
             platform: mac
           - os: windows-latest
             platform: win
-          - os: ubuntu-latest
-            platform: linux
 
     steps:
       - name: Checkout code
