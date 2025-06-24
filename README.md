@@ -50,7 +50,8 @@
 
 ### 自动更新机制
 - 增量更新支持
-- 自定义更新服务器
+- GitHub Releases自动发布
+- CI/CD自动构建流水线
 
 ### 跨平台支持
 - Windows (x64/arm64)
@@ -179,15 +180,47 @@ navigate('/settings')
 
 - 应用名称和图标
 - 打包格式和目标平台
-- 自动更新服务器
+- GitHub仓库信息
 - 安装程序选项
+
+### 自动发布
+
+项目配置了 GitHub Actions 自动化工作流，支持自动构建和发布：
+
+#### 配置步骤
+
+1. **更新仓库信息**：修改 `electron-builder.yml` 中的 GitHub 仓库配置
+```yaml
+publish:
+  provider: github
+  owner: your-github-username
+  repo: your-repo-name
+```
+
+2. **创建发布版本**：
+```bash
+# 更新版本号并推送标签
+npm version patch
+git push origin --tags
+```
+
+3. **自动构建**：GitHub Actions 会自动构建所有平台的安装包并发布到 Releases
+
+#### 支持的发布方式
+
+- **标签触发**：推送 `v*.*.*` 格式的标签自动触发
+- **手动触发**：在 GitHub Actions 页面手动运行工作流
+- **本地发布**：使用 `pnpm release` 命令本地构建并发布
+
+详细说明请参考：[自动发布指南](./docs/auto-release.md)
 
 ### 自动更新
 
 项目集成了 `electron-updater` 用于自动更新：
 
-1. 修改 `electron-builder.yml` 中的 `publish` 配置指向你的更新服务器
-2. 使用 `autoUpdaterManager` 管理更新流程
+1. 应用启动时自动检查 GitHub Releases 中的最新版本
+2. 发现新版本时提示用户更新
+3. 支持增量更新和后台下载
 
 ## 🧩 开发规范
 
