@@ -56,8 +56,8 @@ npmRebuild: false
 publish:
   provider: github
   # url: https://example.com/auto-updates
-  owner: your-github-username
-  repo: your-repo-name
+  owner: mobaibai
+  repo: template-electron-react
   private: false
 electronDownload:
   mirror: https://npmmirror.com/mirrors/electron/
