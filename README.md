@@ -9,51 +9,60 @@
 ## 🚀 技术栈
 
 ### 核心框架
+
 - **Electron**: v29+ 跨平台桌面应用框架
 - **React**: v19+ 用户界面库
 - **TypeScript**: v5+ 类型安全的JavaScript超集
 - **Vite + electron-vite**: 现代化构建工具
 
 ### UI/UX
+
 - **Ant Design**: 企业级UI组件库
 - **UnoCSS**: 原子化CSS引擎
 - **Three.js + React Three Fiber**: 3D图形渲染
 
 ### 状态管理与数据获取
+
 - **Zustand**: 轻量级状态管理
 - **SWR**: React Hooks数据获取库
 - **React Router**: 客户端路由
 
 ### 开发工具
+
 - **ESLint + Prettier**: 代码规范和格式化
 - **electron-builder**: 应用打包和分发
 
 ## ✨ 功能特性
 
 ### 完整的IPC通信架构
+
 - 主进程与渲染进程间安全通信
 - HTTP客户端封装(类似Axios)
 - 系统信息获取(CPU、内存、网络等)
 - 文件操作和对话框
 
 ### 现代化UI设计
+
 - 响应式布局
 - 暗黑模式支持
 - 动画效果
 - 毛玻璃效果
 
 ### 3D图形支持
+
 - Three.js集成
 - GLB模型支持
 - HDR环境贴图
 - KTX2压缩纹理
 
 ### 自动更新机制
+
 - 增量更新支持
 - GitHub Releases自动发布
 - CI/CD自动构建流水线
 
 ### 跨平台支持
+
 - Windows (x64/arm64)
 - macOS (x64/arm64)
 - Linux (AppImage/Snap/Deb)
@@ -190,6 +199,7 @@ navigate('/settings')
 #### 配置步骤
 
 1. **更新仓库信息**：修改 `electron-builder.yml` 中的 GitHub 仓库配置
+
 ```yaml
 publish:
   provider: github
@@ -198,6 +208,7 @@ publish:
 ```
 
 2. **创建发布版本**：
+
 ```bash
 # 更新版本号并推送标签
 npm version patch
@@ -209,17 +220,9 @@ git push origin --tags
 #### 支持的发布方式
 
 - **标签触发**：推送 `v*.*.*` 格式的标签自动触发
-- **手动触发**：在 GitHub Actions 页面手动运行工作流
 - **本地发布**：使用 `pnpm release` 命令本地构建并发布
 
 #### 故障排除
-
-如果推送标签后 GitHub Actions 没有自动触发，可以手动触发：
-
-1. 进入 GitHub 仓库的 "Actions" 页面
-2. 选择 "Build and Release" 工作流
-3. 点击 "Run workflow" 并输入版本号（如 v0.0.1）
-4. 点击 "Run workflow" 开始构建
 
 详细说明请参考：[自动发布指南](./docs/auto-release.md)
 

@@ -35,7 +35,6 @@
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "electron-vite build && electron-builder --mac",
-    "build:linux": "electron-vite build && electron-builder --linux",
     "release": "npm run build && electron-builder --publish=always",
     "release:win": "npm run build && electron-builder --win --publish=always",
     "release:mac": "electron-vite build && electron-builder --mac --publish=always"

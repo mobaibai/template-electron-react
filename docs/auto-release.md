@@ -11,16 +11,14 @@
 ```yaml
 publish:
   provider: github
-  owner: your-github-username  # 替换为你的 GitHub 用户名
-  repo: your-repo-name         # 替换为你的仓库名
+  owner: your-github-username # 替换为你的 GitHub 用户名
+  repo: your-repo-name # 替换为你的仓库名
   private: false
 ```
 
 ### 2. 创建发布版本
 
-有两种方式触发自动构建和发布：
-
-#### 方式一：推送标签（推荐）
+#### 推送标签
 
 ```bash
 # 1. 更新版本号
@@ -29,15 +27,6 @@ npm version patch  # 或 minor, major
 # 2. 推送标签
 git push origin --tags
 ```
-
-#### 方式二：手动触发
-
-1. 进入 GitHub 仓库页面
-2. 点击 "Actions" 标签
-3. 选择 "Build and Release" 工作流
-4. 点击 "Run workflow"
-5. 输入版本号（如 v1.0.0）
-6. 点击 "Run workflow"
 
 ## 📦 构建产物
 
@@ -68,7 +57,6 @@ pnpm release
 # 构建特定平台并发布
 pnpm release:win    # Windows
 pnpm release:mac    # macOS
-pnpm release:linux  # Linux
 ```
 
 **注意**: 本地发布需要设置 `GH_TOKEN` 环境变量：
@@ -112,24 +100,17 @@ pnpm release
 
 ### Q: 推送标签后 GitHub Actions 没有自动触发怎么办？
 
-A: 如果执行 `npm version patch` 和 `git push origin --tags` 后，GitHub Actions 中的 "Build and Release" 工作流没有自动开始，可以手动触发：
-
-1. 进入 GitHub 仓库页面
-2. 点击 "Actions" 标签
-3. 选择 "Build and Release" 工作流
-4. 点击 "Run workflow" 按钮
-5. 在弹出的对话框中输入版本号（如 v0.0.1）
-6. 点击绿色的 "Run workflow" 按钮开始构建
-
 **可能的原因：**
+
 - GitHub Actions 权限未启用
 - 仓库设置中禁用了 Actions
-- 标签格式不匹配（必须是 v*.*.* 格式）
+- 标签格式不匹配（必须是 v*.*.\* 格式）
 - 网络延迟导致触发延迟
 
 ### Q: 构建失败怎么办？
 
 A: 检查 GitHub Actions 日志，常见问题：
+
 - 依赖安装失败：检查 package.json
 - 权限问题：确保 GITHUB_TOKEN 有足够权限
 - 构建配置错误：检查 electron-builder.yml
@@ -141,12 +122,12 @@ A: 在 electron-builder.yml 中添加签名配置：
 ```yaml
 # macOS 签名
 mac:
-  identity: "Developer ID Application: Your Name"
-  
+  identity: 'Developer ID Application: Your Name'
+
 # Windows 签名
 win:
-  certificateFile: "path/to/certificate.p12"
-  certificatePassword: "password"
+  certificateFile: 'path/to/certificate.p12'
+  certificatePassword: 'password'
 ```
 
 ### Q: 如何自定义发布说明？
