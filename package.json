@@ -1,6 +1,6 @@
 {
   "name": "template-electron-react",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A modern React template with Vite, TypeScript, Ant Design, and UnoCSS, Electron, and Electron Builder",
   "main": "./out/main/index.js",
   "author": "PureSilent",
