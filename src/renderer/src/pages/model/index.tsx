@@ -1,19 +1,36 @@
-import { memo, useRef } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import {
-  Stage,
-  Environment,
-  PerspectiveCamera,
-  OrbitControls,
-  useGLTF,
-  useAnimations
-} from '@react-three/drei'
-import { useTitle } from '@renderer/hooks/useTitle'
-import RobotGlb from '@renderer/assets/models/robot.glb'
-import HdrWhite from '@renderer/assets/hdr/potsdamer_platz_1k.hdr'
+import { memo, useEffect, useRef } from 'react'
 
-const SceneContent = memo((props) => {
+import {
+  Environment,
+  OrbitControls,
+  PerspectiveCamera,
+  Stage,
+  useGLTF,
+} from '@react-three/drei'
+import { Canvas, useFrame } from '@react-three/fiber'
+// @ts-ignore
+import DracoPath from '@renderer/assets/draco'
+import HdrWhite from '@renderer/assets/hdr/potsdamer_platz_1k.hdr'
+import RobotGlb from '@renderer/assets/models/robot.glb'
+import { useTitle } from '@renderer/hooks/useTitle'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
+
+// 配置 Draco 解码器使用本地路径
+const configureDracoLoader = () => {
+  const dracoLoader = new DRACOLoader()
+  // 使用本地 draco 解码器，避免从 CDN 加载
+  dracoLoader.setDecoderPath(DracoPath)
+  dracoLoader.preload()
+  return dracoLoader
+}
+
+const SceneContent = memo(() => {
   const robotRef = useRef<any>(null)
+
+  useEffect(() => {
+    // 初始化 Draco 解码器配置
+    configureDracoLoader()
+  }, [])
 
   useFrame(() => {
     if (robotRef.current) {
@@ -45,7 +62,7 @@ const SceneContent = memo((props) => {
 type Props = {
   title?: string
 }
-export const ModelPage: React.FC<Props> = (props) => {
+export const ModelPage: React.FC<Props> = props => {
   if (props.title) {
     useTitle(props.title)
   }
@@ -60,14 +77,18 @@ export const ModelPage: React.FC<Props> = (props) => {
 }
 
 useGLTF.preload(RobotGlb)
-const RobotModel = (props) => {
+const RobotModel = props => {
   const { nodes, materials } = useGLTF(RobotGlb) as any
 
   return (
     <group {...props} dispose={null}>
       <mesh
-        geometry={nodes['tripo_node_3790c885-dbc6-460a-9d3e-164d49b632ff'].geometry}
-        material={materials['tripo_material_3790c885-dbc6-460a-9d3e-164d49b632ff']}
+        geometry={
+          nodes['tripo_node_3790c885-dbc6-460a-9d3e-164d49b632ff'].geometry
+        }
+        material={
+          materials['tripo_material_3790c885-dbc6-460a-9d3e-164d49b632ff']
+        }
       />
     </group>
   )

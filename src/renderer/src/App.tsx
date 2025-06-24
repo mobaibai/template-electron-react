@@ -1,15 +1,16 @@
+// React19兼容包
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import { ConfigProvider } from 'antd'
-import vhCheck from 'vh-check'
-import RouterConainer from './router'
+
+import '@ant-design/v5-patch-for-react-19'
 import AutoUpdater from '@renderer/components/AutoUpdater'
 import { ThemePrimary } from '@renderer/config'
+import RouterConainer from '@renderer/router'
+import '@renderer/styles/app.scss'
+import '@renderer/styles/global.scss'
+import { ConfigProvider } from 'antd'
+import { useLocation } from 'react-router-dom'
+// @ts-ignore
 import 'virtual:svgsprites'
-import './styles/global.scss'
-import './styles/app.scss'
-
-vhCheck()
 
 interface Props {
   title?: string
@@ -24,25 +25,26 @@ const App: React.FC<Props> = () => {
   }, [_location])
 
   return (
-    <div className={`App w-screen h-screen overflow-hidden`}>
+    <div className="App w-screen h-screen overflow-hidden">
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: ThemePrimary
-          }
+            colorPrimary: ThemePrimary,
+          },
         }}
       >
         <div
-          className={`bg-image w-screen h-screen overflow-hidden relative bg-#222533 ${isStart ? 'opacity-90' : 'opacity-100'}`}
+          className={`bg-image w-screen h-screen overflow-hidden relative ${isStart ? 'opacity-90' : 'opacity-100'}`}
         >
+          <div
+            className={`absolute w-15% h-15% rounded-50% top-30% left-30% transform-translate--50% filter-blur-6rem rainbow-bgc`}
+          />
           <RouterConainer />
           <AutoUpdater />
-          <div
-            className={`absolute w-25% h-25% rounded-50% top-35% left-30% transform-translate--50% filter-blur-10rem dark:rainbow-bgc`}
-          />
         </div>
       </ConfigProvider>
     </div>
   )
 }
+
 export default App

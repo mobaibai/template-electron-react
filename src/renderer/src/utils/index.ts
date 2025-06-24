@@ -3,11 +3,14 @@
  * @param {number} time 毫秒
  * @param {string} format 格式
  * @return {type} TimeString
- * @example:
+ * @example
  * const time = formatTime(1672531199000, 'yyyy-MM-dd HH:mm:ss')
  * console.log(time) // 2023-01-01 00:00:00
  */
-export const formatTime = (time: number | string | Date, format: string): string => {
+export const formatTime = (
+  time: number | string | Date,
+  format: string
+): string => {
   if (typeof time === 'string') time = Number(time)
   if (typeof time !== 'number' || Number.isNaN(time)) return ''
   if (!format) format = 'yyyy-MM-dd HH:mm:ss'
@@ -37,7 +40,7 @@ export const formatTime = (time: number | string | Date, format: string): string
  * @description: 对象转QueryString
  * @param {type} obj
  * @return {type} QueryString
- * @example:
+ * @example
  * const obj = { name: 'John', age: 30 }
  * const queryString = objectToQueryString(obj)
  * console.log(queryString) // name=John&age=30
@@ -55,7 +58,7 @@ export const objectToQueryString = (obj: { [key: string]: any }) => {
  * @param {string} toUnit 目标单位
  * @param {number} decimalPoint 保留小数位
  * @return {string | null} 转换结果，如果参数无效，则返回 null
- * @example:
+ * @example
  * const fileSize = convertFileSize(1024, 'KB', 'MB', 2)
  */
 export const convertFileSize = (

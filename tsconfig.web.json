@@ -4,21 +4,15 @@
     "src/renderer/src/env.d.ts",
     "src/renderer/src/**/*",
     "src/renderer/src/**/*.tsx",
-    "src/renderer/src/**/*.json",
-    "types/*",
+    "src/preload/*.d.ts",
+    "types/*"
   ],
   "compilerOptions": {
     "composite": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@renderer/*": [
-        "src/renderer/src/*"
-      ]
-    },
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noImplicitAny": false,
-    "noImplicitReturns": false
+      "@renderer/*": ["src/renderer/src/*"]
+    }
   }
 }

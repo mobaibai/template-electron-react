@@ -1,7 +1,13 @@
 import React from 'react'
-import { Button, Progress, Alert, Space, Typography, Card, Divider } from 'antd'
-import { DownloadOutlined, ReloadOutlined, CheckOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
-import { useAutoUpdater } from '../hooks/useAutoUpdater'
+
+import {
+  CheckOutlined,
+  DownloadOutlined,
+  ExclamationCircleOutlined,
+  ReloadOutlined,
+} from '@ant-design/icons'
+import { useAutoUpdater } from '@renderer/hooks/useAutoUpdater'
+import { Alert, Button, Card, Divider, Progress, Space, Typography } from 'antd'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -9,7 +15,8 @@ const { Title, Text, Paragraph } = Typography
  * 自动更新组件
  */
 export const AutoUpdater: React.FC = () => {
-  const { updateState, appVersion, checkForUpdates, quitAndInstall } = useAutoUpdater()
+  const { updateState, appVersion, checkForUpdates, quitAndInstall } =
+    useAutoUpdater()
 
   const {
     checking,
@@ -18,7 +25,7 @@ export const AutoUpdater: React.FC = () => {
     downloaded,
     error,
     progress,
-    updateInfo
+    updateInfo,
   } = updateState
 
   // 渲染更新状态
@@ -68,17 +75,21 @@ export const AutoUpdater: React.FC = () => {
                 <Progress
                   percent={Math.round(progress.percent)}
                   status="active"
-                  format={(percent) => `${percent}%`}
+                  format={percent => `${percent}%`}
                 />
                 <div style={{ marginTop: 8, fontSize: '12px', color: '#666' }}>
                   <Text type="secondary">
-                    已下载: {(progress.transferred / 1024 / 1024).toFixed(2)} MB / 
-                    总大小: {(progress.total / 1024 / 1024).toFixed(2)} MB
+                    已下载: {(progress.transferred / 1024 / 1024).toFixed(2)} MB
+                    / 总大小: {(progress.total / 1024 / 1024).toFixed(2)} MB
                   </Text>
                 </div>
               </>
             ) : (
-              <Progress percent={0} status="active" format={() => '准备下载...'} />
+              <Progress
+                percent={0}
+                status="active"
+                format={() => '准备下载...'}
+              />
             )}
           </div>
         </div>
@@ -92,7 +103,8 @@ export const AutoUpdater: React.FC = () => {
           description={
             <div>
               <Paragraph>
-                发现新版本 <Text strong>{updateInfo?.version}</Text>，当前版本: <Text code>{appVersion}</Text>
+                发现新版本 <Text strong>{updateInfo?.version}</Text>，当前版本:{' '}
+                <Text code>{appVersion}</Text>
               </Paragraph>
               {updateInfo?.releaseNotes && (
                 <Paragraph>
@@ -136,13 +148,13 @@ export const AutoUpdater: React.FC = () => {
     <Card>
       <Title level={4}>应用更新</Title>
       <Divider />
-      
+
       <Space direction="vertical" style={{ width: '100%' }} size="large">
         {renderUpdateStatus()}
-        
+
         <Space>
-          <Button 
-            type="primary" 
+          <Button
+            type="primary"
             icon={<ReloadOutlined />}
             onClick={checkForUpdates}
             loading={checking}
@@ -150,20 +162,18 @@ export const AutoUpdater: React.FC = () => {
           >
             检查更新
           </Button>
-          
+
           {downloaded && (
-            <Button 
-              type="default" 
-              onClick={quitAndInstall}
-            >
+            <Button type="default" onClick={quitAndInstall}>
               立即重启安装
             </Button>
           )}
         </Space>
-        
+
         <div style={{ fontSize: '12px', color: '#999' }}>
           <Text type="secondary">
-            提示: 应用会在启动时自动检查更新。在生产环境中，更新将自动下载并提示安装。
+            提示:
+            应用会在启动时自动检查更新。在生产环境中，更新将自动下载并提示安装。
           </Text>
         </div>
       </Space>

@@ -1,9 +1,9 @@
-import { app, BrowserWindow } from 'electron'
 import { electronApp, optimizer } from '@electron-toolkit/utils'
-import { ipcHandles } from './ipc-handles'
+import { BrowserWindow, app } from 'electron'
+
 import { useMenu } from './hooks/menu'
-import { createWindow, createMainWindow } from './window-manager'
-// import { autoUpdaterManager } from './auto-updater'
+import { ipcHandles } from './ipc-handles'
+import { createMainWindow, createWindow } from './window-manager'
 
 app.whenReady().then(() => {
   electronApp.setAppUserModelId('com.electrontmp.app')
@@ -16,9 +16,6 @@ app.whenReady().then(() => {
   ipcHandles()
   /* 创建窗口 */
   createWindow()
-
-  /* 初始化自动更新 */
-  // autoUpdaterManager 会自动初始化
 })
 
 app.on('browser-window-created', (_, window) => {

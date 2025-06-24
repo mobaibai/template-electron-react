@@ -1,42 +1,39 @@
-import { useEffect, useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
-import { Menu } from 'antd'
+import { useEffect, useState, useMemo } from 'react'
+import { RouteItems } from '@renderer/router/config'
 import type { MenuProps } from 'antd'
-import type { MenuItemType } from 'antd/es/menu/interface'
+import { Menu } from 'antd'
+import type { ItemType } from 'antd/es/menu/interface'
+import { NavLink, useLocation } from 'react-router-dom'
 
-const menuItems: MenuProps['items'] = [
-  {
-    label: <NavLink to={'/index'}>{'首页'}</NavLink>,
-    key: '/index'
-  },
-  {
-    label: <NavLink to={'/model'}>{'模型'}</NavLink>,
-    key: '/model'
-  },
-  {
-    label: <NavLink to={'/about'}>{'关于'}</NavLink>,
-    key: '/about'
-  }
-]
 interface Props {}
 export const Header: React.FC<Props> = () => {
-  const _location = useLocation()
-  const [menuCurrent, setMenuCurrent] = useState<string>(_location.pathname)
+  const location = useLocation()
+  const [menuCurrent, setMenuCurrent] = useState<string>(location.pathname)
+
+  // 使用 useMemo 避免在模块顶层访问 RouteItems
+  const menuItems: MenuProps['items'] = useMemo(() => {
+    const items: MenuProps['items'] = []
+    RouteItems[0]?.children?.forEach(item => {
+      items.push({
+        label: <NavLink to={item.path}>{item.name}</NavLink>,
+        key: item.path,
+      })
+    })
+    return items
+  }, [])
 
   useEffect(() => {
-    menuItems.forEach((item: MenuItemType | any) => {
-      if (_location.pathname.includes(item.key)) {
+    menuItems?.forEach((item: ItemType | any) => {
+      if (location.pathname.includes(item.key)) {
         setMenuCurrent(item.key)
       }
     })
-  }, [_location.pathname])
+  }, [location.pathname, menuItems])
 
   return (
     <div className="header-container">
       <div className="menu">
         <Menu
-          theme="dark"
-          className="center"
           selectedKeys={[menuCurrent]}
           mode="horizontal"
           items={menuItems}

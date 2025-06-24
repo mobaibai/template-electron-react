@@ -1,5 +1,5 @@
-import { create } from 'zustand'
 import { getStorage, removeStorage, setStorage } from '@renderer/storage'
+import { create } from 'zustand'
 
 type Loading = {
   loadingOpen: boolean
@@ -9,7 +9,7 @@ type Loading = {
  * @description: 设置Loading
  * @param {type} create
  * @return {type}
-* @example:
+ * @example
  * const { loadingOpen, setLoadingOpen } = useLoadingStore()
  * --HTML--
  * <div className='loading-container'>
@@ -18,18 +18,17 @@ type Loading = {
  *   {loadingOpen && <Loading />}
  * </div>
  */
-export const useLoadingStore = create<Loading>((set) => ({
+export const useLoadingStore = create<Loading>(set => ({
   loadingOpen: false,
   setLoadingOpen: (loadingOpen: boolean) => {
     set({ loadingOpen })
-  }
+  },
 }))
 
 type UserData = {
   uid: number | string
-  outtime: number
 }
-type UseUserType = {
+type Login = {
   userData: UserData
   setUserData: (userData: UserData) => void
   removeUserData: () => void
@@ -38,29 +37,31 @@ type UseUserType = {
  * @description: 登录数据处理
  * @param {type} create
  * @return {type}
- * @example:
- * const { userData, setUserData, removeUserData } = useUserStore()
+ * @example
+ * const { userData, setUserData, removeUserData } = useLoginStore()
  */
-export const useUserStore = create<UseUserType>((set) => {
+export const useLoginStore = create<Login>(set => {
   const initialValue: UserData = {
     uid: '',
-    outtime: 0
   }
   return {
     userData: getStorage(`UserData`) || initialValue,
     setUserData: (userData: UserData) => {
       set({ userData })
-      const outtime: number = userData.outtime
-      if (outtime > 0) {
-        setStorage(`UserData`, userData, { expire: outtime })
-      } else {
-        setStorage(`UserData`, userData)
-      }
+      // 一小时
+      const hoursSecond: number = 3600
+      // 一天
+      const day1Second: number = hoursSecond * 24
+      // 当前秒
+      const currentSecond: number = Date.now() / 1000
+      // 过期时间(秒)
+      const expire: number = currentSecond + day1Second
+      setStorage(`UserData`, userData, { expire })
     },
     removeUserData: () => {
       set({ userData: initialValue })
       removeStorage(`UserData`)
-    }
+    },
   }
 })
 
@@ -78,9 +79,9 @@ type PageTitle = {
  * <div>{pageTitle}</div>
  * <button onClick={() => setPageTitle('页面标题')}>设置标题</button>
  */
-export const usePageTitle = create<PageTitle>((set) => ({
+export const usePageTitle = create<PageTitle>(set => ({
   pageTitle: '页面标题',
   setPageTitle: (pageTitle: string) => {
     set({ pageTitle })
-  }
+  },
 }))

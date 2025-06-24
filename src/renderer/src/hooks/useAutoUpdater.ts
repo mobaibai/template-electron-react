@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 // 更新状态类型
 export interface UpdateInfo {
@@ -35,7 +35,7 @@ export function useAutoUpdater() {
     downloaded: false,
     error: null,
     progress: null,
-    updateInfo: null
+    updateInfo: null,
   })
 
   const [appVersion, setAppVersion] = useState<string>('')
@@ -45,7 +45,10 @@ export function useAutoUpdater() {
     try {
       const result = await window.ipcRenderer?.invoke('check-for-updates')
       if (!result?.success) {
-        setUpdateState(prev => ({ ...prev, error: result?.message || '检查更新失败' }))
+        setUpdateState(prev => ({
+          ...prev,
+          error: result?.message || '检查更新失败',
+        }))
       }
     } catch (error) {
       setUpdateState(prev => ({ ...prev, error: '检查更新失败' }))
@@ -80,75 +83,84 @@ export function useAutoUpdater() {
       setUpdateState(prev => ({
         ...prev,
         checking: true,
-        error: null
+        error: null,
       }))
     }
 
     // 发现新版本
-    const handleAvailable = (event, info: UpdateInfo) => {
+    const handleAvailable = (_event, info: UpdateInfo) => {
       setUpdateState(prev => ({
         ...prev,
         checking: false,
         available: true,
-        updateInfo: info
+        updateInfo: info,
       }))
     }
 
     // 没有新版本
-    const handleNotAvailable = (event, info: UpdateInfo) => {
+    const handleNotAvailable = (_event, info: UpdateInfo) => {
       setUpdateState(prev => ({
         ...prev,
         checking: false,
         available: false,
-        updateInfo: info
+        updateInfo: info,
       }))
     }
 
     // 更新错误
-    const handleError = (event, message: string) => {
+    const handleError = (_event, message: string) => {
       setUpdateState(prev => ({
         ...prev,
         checking: false,
         downloading: false,
-        error: message
+        error: message,
       }))
     }
 
     // 下载进度
-    const handleDownloadStarted = (event, info: UpdateInfo) => {
+    const handleDownloadStarted = (_event, info: UpdateInfo) => {
       setUpdateState(prev => ({
         ...prev,
         downloading: true,
         progress: null,
-        updateInfo: info
+        updateInfo: info,
       }))
     }
 
-    const handleProgress = (event, progress: UpdateProgress) => {
+    const handleProgress = (_event, progress: UpdateProgress) => {
       setUpdateState(prev => ({
         ...prev,
         downloading: true,
-        progress
+        progress,
       }))
     }
 
     // 下载完成
-    const handleDownloaded = (event, info: UpdateInfo) => {
+    const handleDownloaded = (_event, info: UpdateInfo) => {
       setUpdateState(prev => ({
         ...prev,
         downloading: false,
         downloaded: true,
-        updateInfo: info
+        updateInfo: info,
       }))
     }
 
     // 绑定事件监听器
     window.ipcRenderer.on?.('auto-updater-update-checking', handleChecking)
     window.ipcRenderer.on?.('auto-updater-update-available', handleAvailable)
-    window.ipcRenderer.on?.('auto-updater-update-not-available', handleNotAvailable)
+    window.ipcRenderer.on?.(
+      'auto-updater-update-not-available',
+      handleNotAvailable
+    )
     window.ipcRenderer.on?.('auto-updater-update-error', handleError)
-    window.ipcRenderer.on?.('auto-updater-update-download-started', handleDownloadStarted)
-    window.ipcRenderer.on?.('auto-updater-update-download-progress', handleProgress)
+    window.ipcRenderer.on?.(
+      'auto-updater-update-download-started',
+      handleDownloadStarted
+    )
+    window.ipcRenderer.on?.(
+      'auto-updater-update-download-progress',
+      handleProgress
+    )
     window.ipcRenderer.on?.('auto-updater-update-downloaded', handleDownloaded)
 
     // 获取应用版本
@@ -158,11 +170,23 @@ export function useAutoUpdater() {
     return () => {
       window.ipcRenderer.off?.('auto-updater-update-checking', handleChecking)
       window.ipcRenderer.off?.('auto-updater-update-available', handleAvailable)
-      window.ipcRenderer.off?.('auto-updater-update-not-available', handleNotAvailable)
+      window.ipcRenderer.off?.(
+        'auto-updater-update-not-available',
+        handleNotAvailable
+      )
       window.ipcRenderer.off?.('auto-updater-update-error', handleError)
-      window.ipcRenderer.off?.('auto-updater-update-download-started', handleDownloadStarted)
-      window.ipcRenderer.off?.('auto-updater-update-download-progress', handleProgress)
-      window.ipcRenderer.off?.('auto-updater-update-downloaded', handleDownloaded)
+      window.ipcRenderer.off?.(
+        'auto-updater-update-download-started',
+        handleDownloadStarted
+      )
+      window.ipcRenderer.off?.(
+        'auto-updater-update-download-progress',
+        handleProgress
+      )
+      window.ipcRenderer.off?.(
+        'auto-updater-update-downloaded',
+        handleDownloaded
+      )
     }
   }, [])
 
@@ -171,6 +195,6 @@ export function useAutoUpdater() {
     appVersion,
     checkForUpdates,
     quitAndInstall,
-    getAppVersion
+    getAppVersion,
   }
 }

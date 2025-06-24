@@ -1,6 +1,8 @@
 import { lazy, useState } from 'react'
+
 import ReactDOM from 'react-dom'
-import { PopupType } from '@renderer/components/Popup'
+
+import type { PopupType } from '@renderer/components/Popup'
 
 const Popup = lazy(() => import('@renderer/components/Popup'))
 
@@ -8,7 +10,7 @@ const Popup = lazy(() => import('@renderer/components/Popup'))
  * @description: 弹窗
  * @param {PopupType} options
  * @return {type}
- * @example:
+ * @example
  * const { popup, show, hide, toggle } = usePopup({
     children: <div className='popup-content'>这是一个全局弹窗</div>
   })
@@ -19,7 +21,15 @@ const Popup = lazy(() => import('@renderer/components/Popup'))
  * </div>
  */
 export const usePopup = (options: PopupType) => {
-  const { isOpen = false, title, maskClosable, width, className, style, children } = options
+  const {
+    isOpen = false,
+    title,
+    maskClosable,
+    width,
+    className,
+    style,
+    children,
+  } = options
   const [open, setOpen] = useState(isOpen)
   const popup = ReactDOM.createPortal(
     <Popup
@@ -45,6 +55,6 @@ export const usePopup = (options: PopupType) => {
     },
     toggle() {
       setOpen(!open)
-    }
+    },
   }
 }

@@ -1,5 +1,5 @@
-import CryptoJS from 'crypto-js'
 import { APP_NAME } from '@renderer/config'
+import CryptoJS from 'crypto-js'
 
 // 十六位十六进制数作为密钥
 const SECRET_KEY = CryptoJS.enc.Utf8.parse('3333e6e143439161')
@@ -17,18 +17,17 @@ const config: ConfigType = {
   type: 'localStorage', // 本地默认存储类型 localStorage
   prefix: APP_NAME, // 名称前缀: 项目名 + 版本
   expire: 0, // 过期时间 单位：秒
-  isEncrypt: false // 默认加密 可设置开发环境与生产环境
-  // isEncrypt: !isDev // 默认加密 可设置开发环境与生产环境
+  isEncrypt: !__isDev__, // 生产环境加密
 }
 
 /**
  * @description: 判断是否支持 Storage
  * @return {type}
- * @example:
+ * @example
  * if (isSupportStorage()) console.log("支持 Storage")
  */
 export function isSupportStorage() {
-  return typeof Storage !== "undefined"
+  return typeof Storage !== 'undefined'
 }
 
 /**
@@ -38,15 +37,19 @@ export function isSupportStorage() {
  * @param {type} expire 过期时间(秒)
  * @param {type} type 类型
  * @return {type}
- * @example:
+ * @example
  * setStorage("key", "data", { expire: 60, type: "localStorage" })
  */
-export function setStorage<T>(key: string, value: T | null, { expire = 0, type = "localStorage" }: ConfigType = {}) {
-  if (value === "" || value === null || value === undefined) {
+export function setStorage<T>(
+  key: string,
+  value: T | null,
+  { expire = 0, type = 'localStorage' }: ConfigType = {}
+) {
+  if (value === '' || value === null || value === undefined) {
     value = null
   }
 
-  if (isNaN(expire) || expire < 0) throw new Error("Expire must be a number")
+  if (isNaN(expire) || expire < 0) throw new Error('Expire must be a number')
 
   const data = {
     value, // 存储值
@@ -54,7 +57,9 @@ export function setStorage<T>(key: string, value: T | null, { expire = 0, type =
     expire, // 过期时间
   }
 
-  const encryptString = config.isEncrypt ? encrypt(JSON.stringify(data)) : JSON.stringify(data)
+  const encryptString = config.isEncrypt
+    ? encrypt(JSON.stringify(data))
+    : JSON.stringify(data)
 
   window[type].setItem(autoAddPrefix(key), encryptString)
 }
@@ -64,19 +69,27 @@ export function setStorage<T>(key: string, value: T | null, { expire = 0, type =
  * @param {string} key
  * @param {type} type 存储类型
  * @return {type}
- * @example:
+ * @example
  * const data = getStorage("key", { type: "localStorage" })
  */
-export function getStorage(key: string, { type = "localStorage" }: ConfigType = {}) {
+export function getStorage(
+  key: string,
+  { type = 'localStorage' }: ConfigType = {}
+) {
   key = autoAddPrefix(key)
   // key 不存在判断
-  if (!window[type].getItem(key) || JSON.stringify(window[type].getItem(key)) === "null") {
+  if (
+    !window[type].getItem(key) ||
+    JSON.stringify(window[type].getItem(key)) === 'null'
+  ) {
     return null
   }
 
   // 优化 持续使用中续期
   const item = window[type].getItem(key)
-  const storage: Storage = config.isEncrypt ? JSON.parse(decrypt(item ?? "")) : JSON.parse(item ?? "")
+  const storage: Storage = config.isEncrypt
+    ? JSON.parse(decrypt(item ?? ''))
+    : JSON.parse(item ?? '')
 
   const nowTime = Date.now() / 1000
 
@@ -96,10 +109,13 @@ export function getStorage(key: string, { type = "localStorage" }: ConfigType = 
  * @param {string} key
  * @param {type} type 存储类型
  * @return {type}
- * @example:
+ * @example
  * removeStorage("key", { type: "localStorage" })
  */
-export function removeStorage(key: string, { type = "localStorage" }: ConfigType = {}) {
+export function removeStorage(
+  key: string,
+  { type = 'localStorage' }: ConfigType = {}
+) {
   window[type].removeItem(autoAddPrefix(key))
 }
 
@@ -107,7 +123,7 @@ export function removeStorage(key: string, { type = "localStorage" }: ConfigType
  * @description: 是否存在 hasStorage
  * @param {string} key
  * @return {type}
- * @example:
+ * @example
  * if (hasStorage("key")) console.log("存在")
  */
 export function hasStorage(key: string) {
@@ -121,10 +137,10 @@ export function hasStorage(key: string) {
 /**
  * @description: 获取所有key
  * @return {type}
- * @example:
+ * @example
  * const keys = getStorageKeys()
  */
-export function getStorageKeys() {
+export function getStorageKeys(): (string | null)[] {
   const items = getStorageAll()
   const keys: (string | null)[] = []
   for (let index = 0; index < items.length; index++) {
@@ -138,10 +154,13 @@ export function getStorageKeys() {
  * @param {number} index
  * @param {type} type 存储类型
  * @return {type}
- * @example:
+ * @example
  * const key = getStorageForIndex(0, { type: "localStorage" })
  */
-export function getStorageForIndex(index: number, { type = "localStorage" }: ConfigType = {}) {
+export function getStorageForIndex(
+  index: number,
+  { type = 'localStorage' }: ConfigType = {}
+) {
   return window[type].key(index)
 }
 
@@ -149,10 +168,10 @@ export function getStorageForIndex(index: number, { type = "localStorage" }: Con
  * @description: 获取localStorage长度
  * @param {type} type 存储类型
  * @return {type}
- * @example:
+ * @example
  * const len = getStorageLength({ type: "localStorage" })
  */
-export function getStorageLength({ type = "localStorage" }: ConfigType = {}) {
+export function getStorageLength({ type = 'localStorage' }: ConfigType = {}) {
   return window[type].length
 }
 
@@ -160,17 +179,24 @@ export function getStorageLength({ type = "localStorage" }: ConfigType = {}) {
  * @description: 获取全部 getAllStorage
  * @param {type} type 存储类型
  * @return {type}
- * @example:
+ * @example
  * const all = getStorageAll({ type: "localStorage" })
  */
-export function getStorageAll({ type = "localStorage" }: ConfigType = {}): Array<{ key: string | null; val: string | null }> {
+interface StorageItem {
+  key: string | null
+  val: string | null
+}
+
+export function getStorageAll({
+  type = 'localStorage',
+}: ConfigType = {}): StorageItem[] {
   const len = window[type].length // 获取长度
-  const arr: Array<{ key: string | null; val: string | null }> = [] // 定义数据集
+  const arr: StorageItem[] = [] // 定义数据集
   for (let i = 0; i < len; i++) {
     // 获取key 索引从0开始
     const getKey = window[type].key(i)
     // 获取key对应的值
-    const getVal = getKey === null ? "" : window[type].getItem(getKey)
+    const getVal = getKey === null ? '' : window[type].getItem(getKey)
     // 放进数组
     arr[i] = { key: getKey, val: getVal }
   }
@@ -181,10 +207,10 @@ export function getStorageAll({ type = "localStorage" }: ConfigType = {}): Array
  * @description: 清空 clearStorage
  * @param {type} type 存储类型
  * @return {type}
- * @example:
+ * @example
  * clearStorage({ type: "localStorage" })
  */
-export function clearStorage({ type = "localStorage" }: ConfigType = {}) {
+export function clearStorage({ type = 'localStorage' }: ConfigType = {}) {
   window[type].clear()
 }
 
@@ -192,11 +218,11 @@ export function clearStorage({ type = "localStorage" }: ConfigType = {}) {
  * @description: 名称前自动添加前缀
  * @param {string} key
  * @return {type}
- * @example:
+ * @example
  * const key = autoAddPrefix("key")
  */
 function autoAddPrefix(key: string) {
-  const prefix = config.prefix ? `${config.prefix}_` : ""
+  const prefix = config.prefix ? `${config.prefix}_` : ''
   return prefix + key
 }
 
@@ -204,7 +230,7 @@ function autoAddPrefix(key: string) {
  * @description: 移除已添加的前缀
  * @param {string} key
  * @return {type}
- * @example:
+ * @example
  * const key = autoRemovePrefix("key")
  */
 function autoRemovePrefix(key: string) {
@@ -217,16 +243,16 @@ function autoRemovePrefix(key: string) {
  * @description: 加密
  * @param {string} data
  * @return {*}
- * @example:
+ * @example
  * const data = encrypt("data")
  */
 function encrypt(data: string) {
-  if (typeof data === "object") {
+  if (typeof data === 'object') {
     try {
       data = JSON.stringify(data)
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log("encrypt error:", error)
+      console.log('encrypt error:', error)
     }
   }
   const dataHex = CryptoJS.enc.Utf8.parse(data)
@@ -242,7 +268,7 @@ function encrypt(data: string) {
  * @description: 解密
  * @param {string} data
  * @return {*}
- * @example:
+ * @example
  * const data = decrypt("data")
  */
 function decrypt(data: string) {

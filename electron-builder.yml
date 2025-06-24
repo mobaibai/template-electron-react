@@ -14,10 +14,14 @@ asarUnpack:
 win:
   requestedExecutionLevel: highestAvailable
   executableName: TemplateElectronReact
-  target: nsis
+  target:
+    - target: nsis
+      arch:
+        - x64
+        - arm64
   icon: build/icon.ico
 nsis:
-  artifactName: ${description}-${version}-setup.${ext}
+  artifactName: ${productName}-${version}-${arch}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
@@ -38,7 +42,7 @@ mac:
     - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
   notarize: false
 dmg:
-  artifactName: ${description}-${version}-${arch}.${ext}
+  artifactName: ${productName}-${version}-${arch}.${ext}
 linux:
   target:
     - AppImage
@@ -47,7 +51,7 @@ linux:
   maintainer: electronjs.org
   category: Utility
 appImage:
-  artifactName: ${description}-${version}.${ext}
+  artifactName: ${productName}-${version}.${ext}
 npmRebuild: false
 publish:
   provider: generic

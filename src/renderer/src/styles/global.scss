@@ -1,5 +1,16 @@
 :root {
+  /* 主题色 */
   --theme-primary: #13c2c2;
+}
+
+html {
+  font-size: 16px;
+}
+
+.icon {
+  fill: currentColor;
+  width: 1em;
+  height: 1em;
 }
 
 html,
@@ -95,14 +106,4 @@ textarea {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-}
-
-html {
-  font-size: 16px;
-}
-
-.icon {
-  fill: currentColor;
-  width: 1.2em;
-  height: 1.2em;
 }

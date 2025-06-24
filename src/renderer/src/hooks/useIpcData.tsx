@@ -1,9 +1,10 @@
+import { useIpcAjax } from '@renderer/lib/ipc-ajax'
+import { objectToQueryString } from '@renderer/utils'
 import type { SWRConfiguration } from 'swr'
 import useSWR from 'swr'
-import { objectToQueryString } from '@renderer/utils'
 
 interface Props {
-  method: 'get' | 'post'
+  method: 'GET' | 'POST'
   path: string | undefined
   params?: JSONValue
   swrConf?: SWRConfiguration
@@ -15,34 +16,60 @@ interface Props {
  * @param {type} params 请求参数
  * @param {type} swrConf SWR 设置
  * @return {type}
- * @example:
+ * @example
  * const { data, mutate, isLoading, isValidating, error } = useIpcData({
-  *   method: 'get',
-  *   path: '/api/test/list',
-  *   params: { count: 10 }
-  * })
+ *  method: 'GET',
+ *  path: '/api/test/list',
+ *  params: { count: 10 }
+ * })
  */
 export const useIpcData = ({
-  method = 'get',
+  method = 'GET',
   path,
   params = {},
   swrConf = {
     revalidateIfStale: false,
     revalidateOnFocus: false,
-    revalidateOnReconnect: false
-  }
+    revalidateOnReconnect: false,
+  },
 }: Props) => {
+  const { get, post } = useIpcAjax({ showLoading: true, handleError: true })
   const { data, mutate, isLoading, isValidating, error } = useSWR<
     DataType<ResponseDataListType | ItemType>
   >(
     path,
     async (path: string) => {
-      const res = await window.ipcRenderer.invoke('request', {
-        url: method === 'get' ? `${path}?${objectToQueryString(typeof params === 'object' && params !== null && !Array.isArray(params) ? params : {})}` : path,
-        method: method === 'get' ? 'GET' : 'POST'
-      })
+      try {
+        let res
+        switch (method) {
+          case 'GET':
+            // GET 请求需要将参数转换为查询字符串
+            const queryString = objectToQueryString(
+              typeof params === 'object' &&
+                params !== null &&
+                !Array.isArray(params)
+                ? params
+                : {}
+            )
+            const getUrl = queryString ? `${path}?${queryString}` : path
+            res = await get<DataType<ResponseDataListType | ItemType>>(getUrl)
+            break
+          case 'POST':
+            res = await post<DataType<ResponseDataListType | ItemType>>(
+              path,
+              params
+            )
+            break
+          default:
+            throw new Error(`不支持的请求方法: ${method}`)
+        }
 
-      return res
+        return res.data
+      } catch (error) {
+        console.error('IPC请求失败:', error)
+        // 重新抛出错误，让SWR处理
+        throw error
+      }
     },
     swrConf
   )
@@ -52,6 +79,6 @@ export const useIpcData = ({
     mutate,
     isLoading,
     isValidating,
-    error
+    error,
   }
 }

@@ -1,6 +1,6 @@
-import * as React from "react"
+import 'react'
 
-declare module "react" {
+declare module 'react' {
   interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
     truncate?: boolean
     flex?: boolean
@@ -21,7 +21,7 @@ declare module "react" {
     b?: string
     z?: string
     block?: boolean
-    "focus:shadow"?: boolean
+    'focus:shadow'?: boolean
   }
 
   interface SVGProps<T> extends SVGAttributes<T>, ClassAttributes<T> {

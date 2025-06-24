@@ -1,7 +1,8 @@
-import path from 'node:path'
 import fs from 'node:fs'
-import store from 'svgstore'
+import path from 'node:path'
 import { optimize } from 'svgo'
+// @ts-ignore
+import store from 'svgstore'
 import type { Plugin, ViteDevServer } from 'vite'
 
 interface Options {
@@ -13,7 +14,8 @@ interface Options {
 export function svgsprites(options: Options = {}): Plugin {
   const virtualModuleId = `virtual:svgsprites${options.id ? `-${options.id}` : ''}`
   const resolvedVirtualModuleId = `\0${virtualModuleId}`
-  const { inputFolder = 'src/renderer/src/assets/icons', inline = false } = options
+  const { inputFolder = 'src/renderer/src/assets/icons', inline = false } =
+    options
 
   const generateCode = () => {
     const sprites = store(options)
@@ -29,7 +31,15 @@ export function svgsprites(options: Options = {}): Plugin {
       const symbol = options.noOptimizeList?.includes(svgId)
         ? code
         : optimize(code, {
-            plugins: ['cleanupAttrs', 'removeDoctype', 'removeComments', 'removeTitle', 'removeDesc', 'removeEmptyAttrs', { name: 'removeAttrs', params: { attrs: '(data-name|fill)' } }],
+            plugins: [
+              'cleanupAttrs',
+              'removeDoctype',
+              'removeComments',
+              'removeTitle',
+              'removeDesc',
+              'removeEmptyAttrs',
+              { name: 'removeAttrs', params: { attrs: '(data-name|fill)' } },
+            ],
           }).data
       sprites.add(svgId, symbol)
     }
@@ -53,19 +63,19 @@ export function svgsprites(options: Options = {}): Plugin {
   return {
     name: 'svgsprites',
     configureServer(server) {
-      server.watcher.on('add', (file) => {
+      server.watcher.on('add', file => {
         handleFileCreationOrUpdate(file, server)
       })
-      server.watcher.on('change', (file) => {
+      server.watcher.on('change', file => {
         handleFileCreationOrUpdate(file, server)
       })
     },
-    resolveId(id: string) {
+    resolveId(id: string): string | undefined | void {
       if (id === virtualModuleId) {
         return resolvedVirtualModuleId
       }
     },
-    load(id: string) {
+    load(id: string): string | undefined | void {
       if (id === resolvedVirtualModuleId) {
         const code = generateCode()
         return `

@@ -1,3 +1,4 @@
+import { ElectronAPI } from '@electron-toolkit/preload'
 import { ipcRenderer, shell } from 'electron'
 
 interface MemoryInfo {
@@ -11,6 +12,8 @@ declare global {
     performance: {
       memory: MemoryInfo
     }
+    electron: ElectronAPI
+    api: unknown
     ipcRenderer: typeof ipcRenderer
     shell: typeof shell
     crash: {
@@ -21,12 +24,18 @@ declare global {
   interface SystemInfo {
     key: string
     name: string
-    value: string | T[]
+    value: string | any[]
   }
 
   type isDev = boolean
 
-  type JSONValue = string | number | boolean | null | { [k: string]: JSONValue } | JSONValue[]
+  type JSONValue =
+    | string
+    | number
+    | boolean
+    | null
+    | { [k: string]: JSONValue }
+    | JSONValue[]
 
   type RequestQueryType = {
     query: Record<string, string>
@@ -38,7 +47,7 @@ declare global {
 
   type ResponseDataListType = {
     list: ItemType[]
-    query: E
+    query: Record<string, string>
     pages: {
       page: number
       per: number
@@ -48,6 +57,6 @@ declare global {
 
   type DataType<R> = {
     code: number
-    data: E
+    data: R
   }
 }

@@ -1,13 +1,13 @@
+import { useLoadingStore } from '@renderer/stores'
 import type { AxiosError, AxiosRequestConfig } from 'axios'
 import axios from 'axios'
-import { useLoadingStore } from '@renderer/stores'
 
 // 静态配置项直接用 defaults 配置
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.defaults.timeout = 10000
 
 // 动态配置项用拦截器来配置
-axios.interceptors.request.use((config) => {
+axios.interceptors.request.use(config => {
   config.headers = config.headers || {}
   return config
 })
@@ -20,7 +20,7 @@ type Options = {
  * @description: Ajax封装
  * @param {Options} options
  * @return {type}
- * @example:
+ * @example
  * const { get, post } = useAjax({ showLoading: true, handleError: true })
  * const resGet = await get<DataType<ResponseDataListType | ItemType>>('/api/get/test/list', { count: 10 })
  * const resPost = await post<DataType<ResponseDataListType | ItemType>>('/api/post/test/list', { count: 10 })
@@ -38,7 +38,7 @@ export const useAjax = (options?: Options) => {
     },
     unknown: () => {
       console.log('unknown')
-    }
+    },
   }
   const showLoading = options?.showLoading || false
   const handleError = options?.handleError ?? true
@@ -55,23 +55,31 @@ export const useAjax = (options?: Options) => {
   }
   const ajax = {
     get: <T>(path: string, config?: AxiosRequestConfig<any>) => {
-      return axios.get<T>(path, config).catch(onError)
-    },
-    post: <T>(path: string, data: JSONValue) => {
-      if (showLoading) {
-        setLoadingOpen(true)
-      }
+      showLoading && setLoadingOpen(true)
+
       return axios
-        .post<T>(path, data)
+        .get<T>(path, config)
         .catch(onError)
         .finally(() => {
-          if (showLoading) {
-            setLoadingOpen(false)
-          }
+          showLoading && setLoadingOpen(false)
+        })
+    },
+    post: <T>(
+      path: string,
+      data: JSONValue,
+      config?: AxiosRequestConfig<any>
+    ) => {
+      showLoading && setLoadingOpen(true)
+
+      return axios
+        .post<T>(path, data, config)
+        .catch(onError)
+        .finally(() => {
+          showLoading && setLoadingOpen(false)
         })
     },
     patch: () => {},
-    delete: () => {}
+    delete: () => {},
   }
   return ajax
 }

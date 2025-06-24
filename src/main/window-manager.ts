@@ -1,6 +1,6 @@
-import { join } from 'path'
-import { BrowserWindow, shell } from 'electron'
 import { is } from '@electron-toolkit/utils'
+import { BrowserWindow, shell } from 'electron'
+import { join } from 'path'
 
 let mainWindow: BrowserWindow
 let loadingWindow: BrowserWindow
@@ -25,12 +25,12 @@ export const createMainWindow = async () => {
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
-      // webSecurity: false,
+      webSecurity: true,
       nodeIntegration: false,
       contextIsolation: true,
       scrollBounce: process.platform === 'darwin',
-      devTools
-    }
+      devTools,
+    },
   })
 
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
@@ -44,7 +44,7 @@ export const createMainWindow = async () => {
     if (loadingWindow) loadingWindow.destroy()
   })
 
-  mainWindow.webContents.setWindowOpenHandler((details) => {
+  mainWindow.webContents.setWindowOpenHandler(details => {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
@@ -64,14 +64,16 @@ const createLoadingWindow = () => {
     webPreferences: {
       // webSecurity: false,
       experimentalFeatures: true,
-      preload: join(__dirname, '../preload/index.js')
-    }
+      preload: join(__dirname, '../preload/index.js'),
+    },
   })
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    loadingWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}#/start-loading`)
+    loadingWindow.loadURL(
+      `${process.env['ELECTRON_RENDERER_URL']}#/start-loading`
+    )
   } else {
     loadingWindow.loadFile(join(__dirname, '../renderer/index.html'), {
-      hash: '#/start-loading'
+      hash: '#/start-loading',
     })
   }
   loadingWindow.show()
