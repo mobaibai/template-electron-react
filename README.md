@@ -212,6 +212,15 @@ git push origin --tags
 - **手动触发**：在 GitHub Actions 页面手动运行工作流
 - **本地发布**：使用 `pnpm release` 命令本地构建并发布
 
+#### 故障排除
+
+如果推送标签后 GitHub Actions 没有自动触发，可以手动触发：
+
+1. 进入 GitHub 仓库的 "Actions" 页面
+2. 选择 "Build and Release" 工作流
+3. 点击 "Run workflow" 并输入版本号（如 v0.0.1）
+4. 点击 "Run workflow" 开始构建
+
 详细说明请参考：[自动发布指南](./docs/auto-release.md)
 
 ### 自动更新
