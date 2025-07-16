@@ -302,6 +302,8 @@ The project integrates `electron-updater` for automatic updates:
 - [GitHub Actions Permissions Configuration](./github-workflows-permissions.en.md) - Permissions configuration guide (English)
 - [GitHub Actions 最佳实践指南](./github-workflows-best-practices.md) - Workflow best practices and optimization guide (Chinese)
 - [GitHub Actions Best Practices Guide](./github-workflows-best-practices.en.md) - Workflow best practices and optimization guide (English)
+- [GitHub Actions 故障排除](./github-actions-troubleshooting.md) - Troubleshooting guide (Chinese)
+- [GitHub Actions Troubleshooting](./github-actions-troubleshooting.en.md) - Troubleshooting guide (English)
 
 ### Scripts Tools
 

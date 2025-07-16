@@ -304,6 +304,8 @@ GitHub Actions 工作流已集成自动清理功能：
 - [GitHub Actions Permissions Configuration](./docs/github-workflows-permissions.en.md) - Permissions configuration guide (English)
 - [GitHub Actions 最佳实践指南](./docs/github-workflows-best-practices.md) - 工作流最佳实践和优化建议
 - [GitHub Actions Best Practices Guide](./docs/github-workflows-best-practices.en.md) - Workflow best practices and optimization guide (English)
+- [GitHub Actions 故障排除指南](./docs/github-actions-troubleshooting.md) - 常见问题和解决方案
+- [GitHub Actions Troubleshooting Guide](./docs/github-actions-troubleshooting.en.md) - Common issues and solutions (English)
 
 ### Scripts 工具
 

@@ -8,8 +8,24 @@ This guide provides best practices for using GitHub Actions in Electron React pr
 
 ### 1. Dependency Caching Strategy
 
+**Correct configuration order for pnpm:**
+
 ```yaml
-# Using pnpm cache
+# 1. Setup pnpm first
+- name: Setup pnpm
+  uses: pnpm/action-setup@v4
+  with:
+    version: 10
+    run_install: false
+
+# 2. Then setup Node.js with pnpm caching
+- name: Setup Node.js
+  uses: actions/setup-node@v4
+  with:
+    node-version: '22'
+    cache: 'pnpm'
+
+# 3. Optional: Manual cache for pnpm store
 - name: Setup pnpm cache
   uses: actions/cache@v4
   with:
@@ -18,6 +34,12 @@ This guide provides best practices for using GitHub Actions in Electron React pr
     restore-keys: |
       ${{ runner.os }}-pnpm-store-
 ```
+
+**Common errors:**
+
+- ❌ Using `cache: 'npm'` when the project uses pnpm
+- ❌ Not setting up pnpm before Setup Node.js
+- ❌ Missing pnpm-lock.yaml file
 
 **Benefits:**
 

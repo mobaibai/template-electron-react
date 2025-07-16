@@ -8,8 +8,24 @@
 
 ### 1. 依赖缓存策略
 
+**使用 pnpm 的正确配置顺序：**
+
 ```yaml
-# 使用 pnpm 缓存
+# 1. 先设置 pnpm
+- name: Setup pnpm
+  uses: pnpm/action-setup@v4
+  with:
+    version: 10
+    run_install: false
+
+# 2. 再设置 Node.js 并启用 pnpm 缓存
+- name: Setup Node.js
+  uses: actions/setup-node@v4
+  with:
+    node-version: '22'
+    cache: 'pnpm'
+
+# 3. 可选：手动缓存 pnpm store
 - name: Setup pnpm cache
   uses: actions/cache@v4
   with:
@@ -18,6 +34,12 @@
     restore-keys: |
       ${{ runner.os }}-pnpm-store-
 ```
+
+**常见错误：**
+
+- ❌ 使用 `cache: 'npm'` 但项目使用 pnpm
+- ❌ 在 Setup Node.js 之前没有设置 pnpm
+- ❌ 缺少 pnpm-lock.yaml 文件
 
 **优势：**
 
