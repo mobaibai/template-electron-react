@@ -12,7 +12,7 @@
 
 ### 核心框架
 
-- **Electron**: v29+ 跨平台桌面应用框架
+- **Electron**: v37+ 跨平台桌面应用框架
 - **React**: v19+ 用户界面库
 - **TypeScript**: v5+ 类型安全的JavaScript超集
 - **Vite + electron-vite**: 现代化构建工具

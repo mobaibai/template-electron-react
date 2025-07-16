@@ -12,7 +12,7 @@ A modern Electron + React desktop application development template with rich fea
 
 ### Core Frameworks
 
-- **Electron**: v29+ Cross-platform desktop application framework
+- **Electron**: v37+ Cross-platform desktop application framework
 - **React**: v19+ User interface library
 - **TypeScript**: v5+ Type-safe JavaScript superset
 - **Vite + electron-vite**: Modern build tools
