@@ -125,7 +125,7 @@ git push origin v1.0.0
    - Confirm repository settings
 
 3. **Cleanup Failure**
-   - Check `scripts/clean-dist.js` file
+   - Check `scripts/clean-dist.mjs` file
    - Verify Node.js version compatibility
    - Review cleanup script logs
 

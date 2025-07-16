@@ -32,7 +32,7 @@
     "dev": "electron-vite dev",
     "build": "npm run typecheck && electron-vite build",
     "postinstall": "electron-builder install-app-deps",
-    "clean:dist": "node scripts/clean-dist.js",
+    "clean:dist": "node scripts/clean-dist.mjs",
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win && npm run clean:dist",
     "build:mac": "npm run build && electron-builder --mac && npm run clean:dist",

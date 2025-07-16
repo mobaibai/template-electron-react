@@ -2,7 +2,7 @@
 
 这个目录包含了项目的辅助脚本。
 
-## clean-dist.js
+## clean-dist.mjs
 
 自动清理 `dist` 目录中的冗余文件和文件夹的脚本。
 
@@ -37,7 +37,7 @@ yarn clean:dist
 pnpm clean:dist
 
 # 直接执行脚本
-node scripts/clean-dist.js
+node scripts/clean-dist.mjs
 ```
 
 #### 自动清理

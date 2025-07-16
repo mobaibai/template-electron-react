@@ -125,7 +125,7 @@ git push origin v1.0.0
    - 确认仓库设置
 
 3. **清理失败**
-   - 检查 `scripts/clean-dist.js` 文件
+   - 检查 `scripts/clean-dist.mjs` 文件
    - 验证 Node.js 版本兼容性
    - 查看清理脚本日志
 

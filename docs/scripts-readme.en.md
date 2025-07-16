@@ -2,7 +2,7 @@
 
 This directory contains auxiliary scripts for the project.
 
-## clean-dist.js
+## clean-dist.mjs
 
 A script to automatically clean redundant files and folders in the `dist` directory.
 
@@ -37,7 +37,7 @@ yarn clean:dist
 pnpm clean:dist
 
 # Direct script execution
-node scripts/clean-dist.js
+node scripts/clean-dist.mjs
 ```
 
 #### Automatic Cleanup

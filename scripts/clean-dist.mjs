@@ -1,7 +1,10 @@
 #!/usr/bin/env node
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-const fs = require('fs')
-const path = require('path')
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 /**
  * 清理 dist 目录中的冗余文件和文件夹
@@ -111,8 +114,9 @@ function cleanDist() {
   console.log(`剩余文件总大小: ${(totalSize / 1024 / 1024).toFixed(2)} MB`)
 }
 
-if (require.main === module) {
+// 检查是否为直接运行的模块
+if (import.meta.url === `file://${process.argv[1]}`) {
   cleanDist()
 }
 
-module.exports = { cleanDist }
+export { cleanDist }

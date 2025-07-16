@@ -2,10 +2,10 @@
  * @fileoverview Main file for draco3d package.
  */
 
-var createEncoderModule = require('./draco_encoder_nodejs')
-var createDecoderModule = require('./draco_decoder_nodejs')
+import createEncoderModule from './draco_encoder_nodejs'
+import createDecoderModule from './draco_decoder_nodejs'
 
-module.exports = {
+export {
   createEncoderModule,
-  createDecoderModule,
+  createDecoderModule
 }
