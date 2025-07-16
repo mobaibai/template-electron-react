@@ -1,5 +1,5 @@
+import { BrowserWindow, dialog } from 'electron'
 import { autoUpdater } from 'electron-updater'
-import { dialog, BrowserWindow } from 'electron'
 
 // 导入类型定义
 export interface UpdateInfo {
@@ -52,34 +52,35 @@ export class AutoUpdaterManager {
       this.sendToRenderer('update-checking')
     })
 
-    autoUpdater.on('update-available', (info) => {
+    autoUpdater.on('update-available', info => {
       console.log('发现新版本:', info.version)
       this.sendToRenderer('update-available', info)
       // 将 electron-updater 的 UpdateInfo 类型转换为本地 UpdateInfo 类型
       this.showUpdateDialog({
         version: info.version,
-        releaseNotes: typeof info.releaseNotes === 'string' ? info.releaseNotes : null,
-        releaseDate: info.releaseDate
+        releaseNotes:
+          typeof info.releaseNotes === 'string' ? info.releaseNotes : null,
+        releaseDate: info.releaseDate,
       })
     })
 
-    autoUpdater.on('update-not-available', (info) => {
+    autoUpdater.on('update-not-available', info => {
       console.log('当前已是最新版本:', info.version)
       this.sendToRenderer('update-not-available', info)
     })
 
-    autoUpdater.on('error', (err) => {
+    autoUpdater.on('error', err => {
       console.error('自动更新出错:', err)
       this.sendToRenderer('update-error', err.message)
     })
 
-    autoUpdater.on('download-progress', (progressObj) => {
+    autoUpdater.on('download-progress', progressObj => {
       const log_message = `下载进度: ${progressObj.percent.toFixed(2)}% (${progressObj.transferred}/${progressObj.total})`
       console.log(log_message)
       this.sendToRenderer('update-download-progress', progressObj)
     })
 
-    autoUpdater.on('update-downloaded', (info) => {
+    autoUpdater.on('update-downloaded', info => {
       console.log('更新下载完成:', info.version)
       this.sendToRenderer('update-downloaded', info)
       this.showInstallDialog(info)
@@ -108,7 +109,7 @@ export class AutoUpdaterManager {
       detail: info.releaseNotes || '新版本包含功能改进和错误修复',
       buttons: ['稍后提醒', '立即下载'],
       defaultId: 1,
-      cancelId: 0
+      cancelId: 0,
     })
 
     if (response === 1) {
@@ -131,7 +132,7 @@ export class AutoUpdaterManager {
       detail: '重启后将自动安装新版本',
       buttons: ['立即重启', '稍后安装'],
       defaultId: 0,
-      cancelId: 1
+      cancelId: 1,
     })
 
     if (response === 0) {

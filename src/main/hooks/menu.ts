@@ -1,7 +1,8 @@
-import { dialog, Menu, shell } from 'electron'
-import type { MenuItemConstructorOptions, MenuItem } from 'electron'
-import { type, arch, release } from 'os'
 import { is } from '@electron-toolkit/utils'
+import { Menu, dialog, shell } from 'electron'
+import type { MenuItem, MenuItemConstructorOptions } from 'electron'
+import { arch, release, type } from 'os'
+
 import { version } from '../../../package.json'
 
 const menu: Array<MenuItemConstructorOptions | MenuItem> = [
@@ -11,34 +12,34 @@ const menu: Array<MenuItemConstructorOptions | MenuItem> = [
       {
         label: '复制',
         accelerator: 'CmdOrCtrl+C',
-        role: 'copy'
+        role: 'copy',
       },
       {
         label: '粘贴',
         accelerator: 'CmdOrCtrl+V',
-        role: 'paste'
+        role: 'paste',
       },
       {
         label: '全选',
         accelerator: 'CmdOrCtrl+A',
-        role: 'selectAll'
+        role: 'selectAll',
       },
       {
         label: '快速重启',
         accelerator: 'CmdOrCtrl+R',
-        role: 'reload'
+        role: 'reload',
       },
       {
         label: '关闭当前窗口',
         accelerator: 'CmdOrCtrl+W',
-        role: 'close'
+        role: 'close',
       },
       {
         label: '关闭所有窗口',
         accelerator: 'CmdOrCtrl+Q',
-        role: 'quit'
-      }
-    ]
+        role: 'quit',
+      },
+    ],
   },
   {
     label: '帮助',
@@ -55,16 +56,18 @@ const menu: Array<MenuItemConstructorOptions | MenuItem> = [
             }\n当前系统：${type()} ${arch()} ${release()}`,
             noLink: true,
             // 点击查看github跳转到github
-            buttons: ['确定', '查看github']
+            buttons: ['确定', '查看github'],
           })
 
           if (res.response == 1) {
-            shell.openExternal('https://github.com/mobaibai/template-electron-react')
+            shell.openExternal(
+              'https://github.com/mobaibai/template-electron-react'
+            )
           }
-        }
-      }
-    ]
-  }
+        },
+      },
+    ],
+  },
 ]
 
 /**
@@ -80,15 +83,15 @@ export const useMenu = () => {
           {
             label: '切换到开发者模式',
             accelerator: 'Cmd+Alt+IOrCtrl+Alt+I',
-            role: 'toggleDevTools'
-          }
-        ]
+            role: 'toggleDevTools',
+          },
+        ],
       })
     }
     const menuTemplate = Menu.buildFromTemplate(menu)
     Menu.setApplicationMenu(menuTemplate)
   }
   return {
-    creactMenu
+    creactMenu,
   }
 }

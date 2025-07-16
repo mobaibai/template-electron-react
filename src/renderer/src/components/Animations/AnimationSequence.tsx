@@ -1,6 +1,7 @@
-import { animated, useSpring } from '@react-spring/web'
 import type { ReactNode } from 'react'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+
+import { animated, useSpring } from '@react-spring/web'
 
 export interface AnimationStep {
   /** 步骤名称 */

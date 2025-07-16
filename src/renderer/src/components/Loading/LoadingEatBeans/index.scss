@@ -12,15 +12,24 @@ Customizations:
   --dotssize: 0.4em;
   width: 2em;
   aspect-ratio: clamp(2, var(--size, 3), 10);
-  background-image: radial-gradient(closest-side circle, var(--dots, #fff) 35%, #fff0 0);
+  background-image: radial-gradient(
+    closest-side circle,
+    var(--dots, #fff) 35%,
+    #fff0 0
+  );
   background-size: var(--dotssize, 0.4em) 100%;
   background-position: var(--dotssize, 0.4em) 50%;
   animation: move var(--time, 0.4s) linear infinite;
   /* the mask helps two purposes: fade in the dots on the right side, and hide them on the left side */
   mask:
-    radial-gradient(farthest-side circle, #fff 99.9%, #fff0) 0 0 / calc(2em / var(--size, 3)) 100%
-      no-repeat,
-    linear-gradient(90deg, #0000 calc(1em / var(--size, 3)), #000 0 75%, #0000 95%);
+    radial-gradient(farthest-side circle, #fff 99.9%, #fff0) 0 0 /
+      calc(2em / var(--size, 3)) 100% no-repeat,
+    linear-gradient(
+      90deg,
+      #0000 calc(1em / var(--size, 3)),
+      #000 0 75%,
+      #0000 95%
+    );
   position: relative;
   /* hide the text using text-indent and hiding overflow */
   overflow: clip;

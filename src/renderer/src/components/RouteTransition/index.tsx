@@ -1,5 +1,6 @@
-import { animated, useSpring } from '@react-spring/web'
 import React, { useEffect, useRef, useState } from 'react'
+
+import { animated, useSpring } from '@react-spring/web'
 import { useLocation } from 'react-router-dom'
 
 interface RouteTransitionProps {

@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react'
 
 import { useIpcData } from '@renderer/hooks/useIpcData'
+import { useTitle } from '@renderer/hooks/useTitle'
 import { useIpcAjax } from '@renderer/lib/ipc-ajax'
 import { Button } from 'antd'
 
+type Props = {
+  title?: string
+}
 /**
  * HTTP 客户端使用示例组件
  * 演示如何使用类似 useAjax 的方式进行网络请求
  */
-export const RequestPage: React.FC = () => {
+export const RequestPage: React.FC<Props> = props => {
+  if (props.title) {
+    useTitle(props.title)
+  }
   const [response, setResponse] = useState<any>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -53,7 +60,9 @@ export const RequestPage: React.FC = () => {
     try {
       setLoading(true)
       setError(null)
-      const result = await get('https://jsonplaceholder.typicode.com/posts/1')
+      const result = await get(
+        'https://www.dongchedi.com/motor/pc/car/series/car_list?aid=1839&app_name=auto_web_pc&city_name=重庆&series_id=99'
+      )
       setResponse(result)
     } catch (err) {
       setError(err instanceof Error ? err.message : '请求失败')
@@ -67,11 +76,16 @@ export const RequestPage: React.FC = () => {
     try {
       setLoading(true)
       setError(null)
-      const result = await post('https://jsonplaceholder.typicode.com/posts', {
-        title: 'foo',
-        body: 'bar',
-        userId: 1,
-      })
+      const result = await post(
+        'https://www.dongchedi.com/motor/pc/car/brand/select_series_v2',
+        {
+          aid: 1839,
+          app_name: 'auto_web_pc',
+          sort_new: 'hot_new',
+          city_name: '重庆',
+          brand: 2,
+        }
+      )
       setResponse(result)
     } catch (err) {
       setError(err instanceof Error ? err.message : '请求失败')

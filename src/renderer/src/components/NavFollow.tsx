@@ -1,6 +1,7 @@
+import { useEffect, useRef, useState } from 'react'
+
 import { Empty } from 'antd'
 import { nanoid } from 'nanoid'
-import { useEffect, useRef, useState } from 'react'
 
 interface NavFollowProps<T> {
   list: Array<T>

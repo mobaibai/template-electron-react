@@ -1,5 +1,7 @@
 # Template Electron React
 
+[English](./docs/README.en.md) | 简体中文
+
 一个现代化的 Electron + React 桌面应用开发模板，集成了丰富的功能和最佳实践。
 
 <p align="center">
@@ -135,7 +137,27 @@ $ pnpm build:mac
 
 # Linux平台
 $ pnpm build:linux
+
+# 所有平台
+$ pnpm build:all
 ```
+
+### 清理构建产物
+
+构建完成后，`dist` 目录会包含大量中间文件。项目提供了自动清理功能：
+
+```bash
+# 手动清理dist目录
+$ pnpm clean:dist
+```
+
+**自动清理**：所有构建命令（`build:win`、`build:mac`、`build:linux`、`build:all`）都会在构建完成后自动执行清理，只保留：
+
+- 最终安装包文件（`.exe`、`.dmg`、`.deb`、`.snap`、`.AppImage`）
+- Blockmap文件（用于增量更新）
+- 自动更新配置文件（`.yml`）
+
+清理后可减少80%以上的磁盘占用。详细说明请参考：[scripts/README.md](./docs/scripts-readme.md)
 
 ## 💡 核心功能使用
 
@@ -217,6 +239,17 @@ git push origin --tags
 
 3. **自动构建**：GitHub Actions 会自动构建所有平台的安装包并发布到 Releases
 
+#### GitHub Actions 清理功能
+
+GitHub Actions 工作流已集成自动清理功能：
+
+- **自动执行**：构建完成后自动清理 `dist` 目录
+- **节省空间**：减少 80% 以上的存储使用
+- **保留必要文件**：只保留安装包、更新配置和校验文件
+- **总是执行**：无论构建成功或失败都会执行清理
+
+详细配置请参考：[GitHub Actions 工作流说明](./docs/github-workflows-readme.md)
+
 #### 支持的发布方式
 
 - **标签触发**：推送 `v*.*.*` 格式的标签自动触发
@@ -224,7 +257,7 @@ git push origin --tags
 
 #### 故障排除
 
-详细说明请参考：[自动发布指南](./docs/auto-release.md)
+详细说明请参考：[自动发布指南](./docs/auto-release.md) | [Auto Release Guide](./docs/auto-release.en.md)
 
 ### 自动更新
 
@@ -253,6 +286,31 @@ git push origin --tags
 - 使用TypeScript定义接口和类型
 - 为IPC通信定义类型
 - 避免使用`any`类型
+
+## 📚 文档
+
+- [English Documentation](./docs/README.en.md) - Complete English documentation
+
+### 自动发布
+
+- [自动发布指南](./docs/auto-release.md) - 自动构建和发布流程说明
+- [Auto Release Guide](./docs/auto-release.en.md) - Automated build and release process guide (English)
+
+### GitHub Actions 工作流
+
+- [GitHub Actions 工作流说明](./docs/github-workflows-readme.md) - 工作流配置和使用指南
+- [GitHub Actions Workflow Documentation](./docs/github-workflows-readme.en.md) - Workflow configuration and usage guide (English)
+- [GitHub Actions 权限配置](./docs/github-workflows-permissions.md) - 权限配置详细说明
+- [GitHub Actions Permissions Configuration](./docs/github-workflows-permissions.en.md) - Permissions configuration guide (English)
+- [GitHub Actions 最佳实践指南](./docs/github-workflows-best-practices.md) - 工作流最佳实践和优化建议
+- [GitHub Actions Best Practices Guide](./docs/github-workflows-best-practices.en.md) - Workflow best practices and optimization guide (English)
+
+### Scripts 工具
+
+- [Scripts 工具说明](./docs/scripts-readme.md) - 项目辅助脚本使用指南
+- [Scripts Tools Documentation](./docs/scripts-readme.en.md) - Project auxiliary scripts usage guide (English)
+- [构建产物清理示例](./docs/clean-dist-example.md) - 清理脚本的详细使用示例
+- [Dist Directory Cleanup Example](./docs/clean-dist-example.en.md) - Detailed usage examples of cleanup scripts (English)
 
 ## 📄 许可证
 

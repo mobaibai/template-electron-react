@@ -34,7 +34,7 @@ mac:
       arch:
         - x64
         - arm64
-  entitlementsInherit: build/entitlements.mac.plist
+  identity: null
   extendInfo:
     - NSCameraUsageDescription: Application requests access to the device's camera.
     - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
@@ -45,13 +45,42 @@ dmg:
   artifactName: ${productName}-${version}-${arch}.${ext}
 linux:
   target:
-    - AppImage
-    - snap
-    - deb
+    - target: AppImage
+      arch:
+        - x64
+    - target: snap
+      arch:
+        - x64
+    - target: deb
+      arch:
+        - x64
   maintainer: electronjs.org
   category: Utility
+  icon: build/icon.png
 appImage:
-  artifactName: ${productName}-${version}.${ext}
+  artifactName: ${productName}-${version}-${arch}.${ext}
+snap:
+  artifactName: ${productName}-${version}-${arch}.${ext}
+  summary: A modern Electron + React desktop application template
+  description: |
+    A comprehensive template for building cross-platform desktop applications
+    with Electron, React, TypeScript, and modern development tools.
+  grade: stable
+  confinement: strict
+  plugs:
+    - default
+    - home
+    - network
+    - removable-media
+deb:
+  artifactName: ${productName}-${version}-${arch}.${ext}
+  depends:
+    - gconf2
+    - gconf-service
+    - libnotify4
+    - libappindicator1
+    - libxtst6
+    - libnss3
 npmRebuild: false
 publish:
   provider: github

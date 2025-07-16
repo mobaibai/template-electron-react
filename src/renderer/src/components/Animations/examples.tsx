@@ -1,5 +1,7 @@
-import { Button, Card, Col, Row, Space, Tabs } from 'antd'
 import React, { useState } from 'react'
+
+import { Button, Card, Col, Row, Space, Tabs } from 'antd'
+
 import type { AnimationStep } from './AnimationSequence'
 import {
   AnimationContainer,

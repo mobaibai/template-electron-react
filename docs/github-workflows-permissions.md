@@ -47,6 +47,7 @@ permissions:
    - Value: 你的个人访问令牌
 
 3. **更新工作流文件**：
+
 ```yaml
 env:
   GH_TOKEN: ${{ secrets.GH_TOKEN }}

@@ -1,5 +1,6 @@
-import { animated, useSpring } from '@react-spring/web'
 import React, { type ReactNode, useCallback, useEffect, useMemo } from 'react'
+
+import { animated, useSpring } from '@react-spring/web'
 
 export type ScaleType =
   | 'scaleIn'

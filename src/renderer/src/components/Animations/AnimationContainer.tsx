@@ -1,6 +1,8 @@
-import { animated, useSpring } from '@react-spring/web'
 import type { ReactNode } from 'react'
 import React, { useCallback, useEffect, useMemo } from 'react'
+
+import { animated, useSpring } from '@react-spring/web'
+
 import type { RotateType } from './AnimationRotate'
 import type { ScaleType } from './AnimationScale'
 import type { SlideDirection } from './AnimationSlide'
