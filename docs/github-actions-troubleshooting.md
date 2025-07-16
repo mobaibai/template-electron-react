@@ -7,12 +7,14 @@
 #### 问题描述
 
 **错误信息：**
+
 ```
-Error: Dependencies lock file is not found in /path/to/project. 
+Error: Dependencies lock file is not found in /path/to/project.
 Supported file patterns: package-lock.json,npm-shrinkwrap.json,yarn.lock
 ```
 
 **或者：**
+
 ```
 pnpm: command not found
 Error: Process completed with exit code 127.
@@ -47,7 +49,7 @@ steps:
     uses: actions/setup-node@v4
     with:
       node-version: '22'
-      cache: 'pnpm'  # 使用 pnpm 而不是 npm
+      cache: 'pnpm' # 使用 pnpm 而不是 npm
 
   # 3. 可选：手动缓存 pnpm store
   - name: Get pnpm store directory
@@ -76,7 +78,7 @@ steps:
   uses: actions/setup-node@v4
   with:
     node-version: '22'
-    cache: 'npm'  # 错误！项目使用 pnpm
+    cache: 'npm' # 错误！项目使用 pnpm
 
 # 错误：pnpm 设置在后面
 - name: Setup pnpm
@@ -90,11 +92,13 @@ steps:
 #### 问题：权限不足
 
 **错误信息：**
+
 ```
 Error: Resource not accessible by integration
 ```
 
 **解决方案：**
+
 ```yaml
 jobs:
   release:
@@ -108,17 +112,19 @@ jobs:
 #### 问题：代码签名失败
 
 **错误信息：**
+
 ```
 Code signing failed
 ```
 
 **解决方案：**
+
 ```yaml
 - name: Build and Release
   run: pnpm release:${{ matrix.platform }}
   env:
     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    CSC_IDENTITY_AUTO_DISCOVERY: false  # 禁用自动代码签名
+    CSC_IDENTITY_AUTO_DISCOVERY: false # 禁用自动代码签名
 ```
 
 ### 3. 缓存相关问题
@@ -126,17 +132,20 @@ Code signing failed
 #### 问题：缓存未命中
 
 **症状：**
+
 - 每次构建都重新下载依赖
 - 构建时间过长
 
 **解决方案：**
 
 1. **检查缓存键**：
+
 ```yaml
 key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
 ```
 
 2. **确保 pnpm-lock.yaml 存在**：
+
 ```bash
 # 本地生成锁定文件
 pnpm install
@@ -151,9 +160,10 @@ git commit -m "Add pnpm-lock.yaml"
 **解决方案：**
 
 1. **使用 fail-fast: false**：
+
 ```yaml
 strategy:
-  fail-fast: false  # 允许其他平台继续构建
+  fail-fast: false # 允许其他平台继续构建
   matrix:
     include:
       - os: macos-latest
@@ -165,6 +175,7 @@ strategy:
 ```
 
 2. **平台特定配置**：
+
 ```yaml
 - name: Platform-specific setup
   if: matrix.os == 'windows-latest'

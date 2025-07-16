@@ -7,12 +7,14 @@
 #### Problem Description
 
 **Error message:**
+
 ```
-Error: Dependencies lock file is not found in /path/to/project. 
+Error: Dependencies lock file is not found in /path/to/project.
 Supported file patterns: package-lock.json,npm-shrinkwrap.json,yarn.lock
 ```
 
 **Or:**
+
 ```
 pnpm: command not found
 Error: Process completed with exit code 127.
@@ -47,7 +49,7 @@ steps:
     uses: actions/setup-node@v4
     with:
       node-version: '22'
-      cache: 'pnpm'  # Use pnpm instead of npm
+      cache: 'pnpm' # Use pnpm instead of npm
 
   # 3. Optional: Manual cache for pnpm store
   - name: Get pnpm store directory
@@ -76,7 +78,7 @@ steps:
   uses: actions/setup-node@v4
   with:
     node-version: '22'
-    cache: 'npm'  # Wrong! Project uses pnpm
+    cache: 'npm' # Wrong! Project uses pnpm
 
 # Wrong: pnpm setup comes later
 - name: Setup pnpm
@@ -90,11 +92,13 @@ steps:
 #### Issue: Insufficient Permissions
 
 **Error message:**
+
 ```
 Error: Resource not accessible by integration
 ```
 
 **Solution:**
+
 ```yaml
 jobs:
   release:
@@ -108,17 +112,19 @@ jobs:
 #### Issue: Code Signing Failure
 
 **Error message:**
+
 ```
 Code signing failed
 ```
 
 **Solution:**
+
 ```yaml
 - name: Build and Release
   run: pnpm release:${{ matrix.platform }}
   env:
     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    CSC_IDENTITY_AUTO_DISCOVERY: false  # Disable auto code signing
+    CSC_IDENTITY_AUTO_DISCOVERY: false # Disable auto code signing
 ```
 
 ### 3. Cache Related Issues
@@ -126,17 +132,20 @@ Code signing failed
 #### Issue: Cache Miss
 
 **Symptoms:**
+
 - Dependencies are re-downloaded every build
 - Build time is too long
 
 **Solutions:**
 
 1. **Check cache key**:
+
 ```yaml
 key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
 ```
 
 2. **Ensure pnpm-lock.yaml exists**:
+
 ```bash
 # Generate lock file locally
 pnpm install
@@ -151,9 +160,10 @@ git commit -m "Add pnpm-lock.yaml"
 **Solutions:**
 
 1. **Use fail-fast: false**:
+
 ```yaml
 strategy:
-  fail-fast: false  # Allow other platforms to continue building
+  fail-fast: false # Allow other platforms to continue building
   matrix:
     include:
       - os: macos-latest
@@ -165,6 +175,7 @@ strategy:
 ```
 
 2. **Platform-specific configuration**:
+
 ```yaml
 - name: Platform-specific setup
   if: matrix.os == 'windows-latest'

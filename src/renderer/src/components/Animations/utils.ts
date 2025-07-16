@@ -199,8 +199,8 @@ export const createTransform = (transforms: {
  */
 export const createStaggerDelay = (
   index: number,
-  baseDelay: number = 0,
-  increment: number = 100
+  baseDelay = 0,
+  increment = 100
 ): number => {
   return baseDelay + index * increment
 }
@@ -211,10 +211,7 @@ export const createStaggerDelay = (
  * @param max 最大延迟
  * @returns 随机延迟时间
  */
-export const createRandomDelay = (
-  min: number = 0,
-  max: number = 500
-): number => {
+export const createRandomDelay = (min = 0, max = 500): number => {
   return Math.random() * (max - min) + min
 }
 

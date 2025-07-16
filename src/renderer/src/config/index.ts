@@ -32,9 +32,9 @@ export const BaseApi: BaseApiType = __isDev__ ? development : production
  * @description: 项目名
  * @return {type}
  */
-export const APP_NAME: string = 'APP_NAME'
+export const APP_NAME = 'APP_NAME'
 
 /**
  * @description: 主题色
  */
-export const ThemePrimary: string = '#13c2c2'
+export const ThemePrimary = '#13c2c2'

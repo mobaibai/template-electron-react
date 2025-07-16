@@ -65,7 +65,7 @@ export const convertFileSize = (
   size: number,
   fromUnit: 'B' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB',
   toUnit: 'B' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB',
-  decimalPoint: number = 2
+  decimalPoint = 2
 ): string | null => {
   const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
   const fromIndex = units.indexOf(fromUnit)

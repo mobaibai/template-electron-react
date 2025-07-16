@@ -49,7 +49,7 @@ export const useLoginStore = create<Login>(set => {
     setUserData: (userData: UserData) => {
       set({ userData })
       // 一小时
-      const hoursSecond: number = 3600
+      const hoursSecond = 3600
       // 一天
       const day1Second: number = hoursSecond * 24
       // 当前秒

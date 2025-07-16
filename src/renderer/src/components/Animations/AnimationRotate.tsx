@@ -290,8 +290,22 @@ export const AnimationRotate: React.FC<AnimationRotateProps> = ({
   )
 }
 
+// 旋转动画控制器返回类型
+export interface UseRotateAnimationReturn {
+  styles: any
+  rotateIn: (
+    fromAngle?: number,
+    toAngle?: number,
+    axis?: string,
+    config?: any
+  ) => any
+  rotateOut: (toAngle?: number, axis?: string, config?: any) => any
+  spin: (angle?: number, axis?: string, config?: any) => any
+  flip: (axis?: string, config?: any) => any
+  api: any
+}
 // 导出一个控制器 Hook，用于手动控制旋转动画
-export const useRotateAnimation = () => {
+export const useRotateAnimation = (): UseRotateAnimationReturn => {
   const [styles, api] = useSpring(() => ({
     transform: 'rotateZ(0deg)',
     opacity: 1,
