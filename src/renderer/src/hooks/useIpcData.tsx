@@ -51,7 +51,7 @@ export const useIpcData = ({
                 ? params
                 : {}
             )
-            const getUrl = queryString ? `${path}?${queryString}` : path
+            const getUrl = queryString ? `${path + queryString}` : path
             res = await get<DataType<ResponseDataListType | ItemType>>(getUrl)
             break
           case 'POST':

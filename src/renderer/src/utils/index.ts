@@ -46,9 +46,17 @@ export const formatTime = (
  * console.log(queryString) // name=John&age=30
  */
 export const objectToQueryString = (obj: { [key: string]: any }) => {
-  return Object.keys(obj)
-    .map(key => `${key}=${obj[key]}`)
+  const keys = Object.keys(obj)
+
+  if (keys.length === 0) {
+    return ''
+  }
+
+  const queryString = keys
+    .map(key => `${key}=${encodeURIComponent(obj[key])}`)
     .join('&')
+
+  return `?${queryString}`
 }
 
 /**
