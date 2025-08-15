@@ -73,7 +73,7 @@ type PageTitle = {
  * @description: 页面Title
  * @param {type} create
  * @return {type}
- * @example:
+ * @example
  * const { pageTitle, setPageTitle } = usePageTitle()
  * --HTML--
  * <div>{pageTitle}</div>
